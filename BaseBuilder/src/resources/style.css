@@ -1,0 +1,45 @@
+@sprite .baseBackground td {
+	gwt-image: "placedTileBG";
+}
+
+.selectionBackground {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@sprite .selectionBackground td {
+	gwt-image: "tileSelectorBG";
+}
+
+@sprite .acceptingTile {
+	gwt-image: "acceptingTile";
+}
+
+@sprite .rejectingTile {
+	gwt-image: "rejectingTile";
+}
+
+@sprite .selectedTile {
+	gwt-image: "selectedTile";
+}
+
+body {
+	background-color: #DDDDDD;
+}
+/*Styling for DockLayoutPanels*/
+.rootStyle {
+	margin: auto auto;
+	width: 80%;
+	height: 96%;
+}
+
+.innerStyle {
+	margin: 0.5em auto;
+	width: 872px;
+	height: 100%;
+}

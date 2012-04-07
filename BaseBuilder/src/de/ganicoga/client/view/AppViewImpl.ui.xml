@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:ganicoga="urn:import:de.ganicoga.client.widget">
+
+	<ui:with type="de.ganicoga.client.Resources" field="INSTANCE" />
+
+	<g:DockLayoutPanel unit="EM" styleName="{INSTANCE.style.rootStyle}">
+		<g:north size="3.0">
+			<g:HorizontalPanel styleName="{INSTANCE.style.centered}">
+				<g:HTMLPanel>
+					<table>
+						<tr>
+							<td>
+								<g:Label text="Config:"></g:Label>
+							</td>
+							<td>
+								<ganicoga:ExtendedTextBox ui:field="configBox"
+									maxLength="150" width="275px" />
+							</td>
+							<td>
+								<g:Button text="Select" ui:field="selectButton" />
+							</td>
+							<td>
+								<g:Button text="Load" ui:field="loadButton" enabled="false" />
+							</td>
+							<td>
+								<g:Button text="Clear All" ui:field="clearButton" />
+							</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+			</g:HorizontalPanel>
+		</g:north>
+		<g:south size="7.4">
+			<g:ScrollPanel ui:field="selectionContent">
+			</g:ScrollPanel>
+		</g:south>
+		<g:center>
+			<g:DockLayoutPanel unit="PCT" styleName="{INSTANCE.style.innerStyle}">
+				<g:center>
+					<g:ScrollPanel ui:field="baseContent">
+					</g:ScrollPanel>
+				</g:center>
+				<g:east size="16">
+						<g:SimpleLayoutPanel ui:field="statsContent"></g:SimpleLayoutPanel>
+				</g:east>
+			</g:DockLayoutPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

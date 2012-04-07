@@ -1,0 +1,8 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:ganicoga="urn:import:de.ganicoga.client.widget">
+	<ui:with type="de.ganicoga.client.Resources"
+		field="INSTANCE" />
+	<ganicoga:DroppableHorizontalPanel ui:field="content" styleName="{INSTANCE.style.selectionBackground}">
+	</ganicoga:DroppableHorizontalPanel>
+</ui:UiBinder> 
