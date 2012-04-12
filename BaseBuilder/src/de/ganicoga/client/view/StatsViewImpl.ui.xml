@@ -34,10 +34,10 @@
 					</tr>
 					<tr>
 						<td>
-							Constant:
+							Continuous:
 						</td>
 						<td>
-							<g:Label ui:field="constantTiberium">---</g:Label>
+							<g:Label ui:field="continuousTiberium">---</g:Label>
 						</td>
 					</tr>
 					<tr>
@@ -45,7 +45,7 @@
 							Package:
 						</td>
 						<td>
-							<g:Label ui:field="packageBonusTiberium">---</g:Label>
+							<g:Label ui:field="packageTiberium">---</g:Label>
 						</td>
 					</tr>
 					<tr>
@@ -63,10 +63,10 @@
 					</tr>
 					<tr>
 						<td>
-							Constant:
+							Continuous:
 						</td>
 						<td>
-							<g:Label ui:field="constantCrystal">---</g:Label>
+							<g:Label ui:field="continuousCrystal">---</g:Label>
 						</td>
 					</tr>
 					<tr>
@@ -74,7 +74,7 @@
 							Package:
 						</td>
 						<td>
-							<g:Label ui:field="packageBonusCrystal">---</g:Label>
+							<g:Label ui:field="packageCrystal">---</g:Label>
 						</td>
 					</tr>
 										<tr>
@@ -92,18 +92,10 @@
 					</tr>
 					<tr>
 						<td>
-							Constant:
+							Continuous:
 						</td>
 						<td>
-							<g:Label ui:field="constantPower">---</g:Label>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Speed:
-						</td>
-						<td>
-							<g:Label ui:field="speedBonusPower">---</g:Label>
+							<g:Label ui:field="continuousPower">---</g:Label>
 						</td>
 					</tr>
 					<tr>
@@ -111,7 +103,7 @@
 							Package:
 						</td>
 						<td>
-							<g:Label ui:field="packageBonusPower">---</g:Label>
+							<g:Label ui:field="packagePower">---</g:Label>
 						</td>
 					</tr>
 										<tr>
@@ -129,18 +121,10 @@
 					</tr>
 					<tr>
 						<td>
-							Constant:
+							Continuous:
 						</td>
 						<td>
-							<g:Label ui:field="constantCredits">---</g:Label>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Speed:
-						</td>
-						<td>
-							<g:Label ui:field="speedBonusCredits">---</g:Label>
+							<g:Label ui:field="continuousCredits">---</g:Label>
 						</td>
 					</tr>
 					<tr>
@@ -148,7 +132,7 @@
 							Package:
 						</td>
 						<td>
-							<g:Label ui:field="packageBonusCredits">---</g:Label>
+							<g:Label ui:field="packageCredits">---</g:Label>
 						</td>
 					</tr>
 					<tr>

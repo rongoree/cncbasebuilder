@@ -2,17 +2,21 @@ package de.ganicoga.client.model;
 
 import java.util.List;
 
+import de.ganicoga.client.model.resource.Accumulator;
 import de.ganicoga.client.model.resource.Crystal;
 import de.ganicoga.client.model.resource.HarvesterCrystal;
 import de.ganicoga.client.model.resource.HarvesterTiberium;
 import de.ganicoga.client.model.resource.PowerPlant;
 import de.ganicoga.client.model.resource.Refinery;
+import de.ganicoga.client.model.resource.Silo;
 import de.ganicoga.client.model.resource.Tiberium;
 
 public class BaseModel extends AbstractBaseModel {
 
-	private int constantTiberium, constantCrystal, constantPower, constantCredits;
-	private double speedPower, speedCredits;
+	private int continuousTiberium, continuousCrystal, continuousPower,
+			continuousCredits;
+	private double packageTiberium, packageCrystal, packagePower,
+			packageCredits;
 	private int buildings;
 
 	public BaseModel(String token) {
@@ -22,16 +26,24 @@ public class BaseModel extends AbstractBaseModel {
 	public BaseModel() {
 		super();
 	}
+	
+	public void update(){
+		collectAll();
+	}
 
 	@Override
 	protected void collectAll() {
 
-		constantTiberium = 0;
-		constantCrystal = 0;
-		constantPower = 0;
-		speedPower = 0.0d;
-		constantCredits = 0;
-		speedCredits = 0.0d;
+		continuousTiberium = 0;
+		continuousCrystal = 0;
+		continuousPower = 0;
+		continuousCredits = 0;
+
+		packageTiberium = 0;
+		packageCrystal = 0;
+		packagePower = 0;
+		packageCredits = 0;
+
 		buildings = 0;
 
 		for (int i = 0; i < gridRows; i++) {
@@ -47,58 +59,113 @@ public class BaseModel extends AbstractBaseModel {
 			return;
 		}
 		buildings++;
-		if (s instanceof HarvesterTiberium) {
-			constantTiberium++;
-		} else if (s instanceof HarvesterCrystal) {
-			constantCrystal++;
-		} else if (s instanceof PowerPlant) {
-			constantPower++;
+		if (s instanceof ResourceStructure) {
+			ResourceStructure rs = (ResourceStructure) s;
 
-			double speedBonus = 0;
-			for (Structure n : neighbors) {
-				if (n instanceof HarvesterCrystal || n instanceof Crystal) {
-					speedBonus += Refs.SPEED_BONUS;
+			if (rs instanceof HarvesterTiberium) {
+				packageTiberium += Refs.getMineralPackageProduction(rs
+						.getLevel());
+				boolean siloUsedUp = false;
+				for (Structure n : neighbors) {
+					if (n instanceof Silo && !siloUsedUp) {
+						continuousTiberium += Refs.getContinous3Production(rs
+								.getLevel());
+						siloUsedUp = true;
+					}
+				}
+			} else if (rs instanceof HarvesterCrystal) {
+				packageCrystal += Refs.getMineralPackageProduction(rs
+						.getLevel());
+				boolean siloUsedUp = false;
+				for (Structure n : neighbors) {
+					if (n instanceof Silo && !siloUsedUp) {
+						continuousCrystal += Refs.getContinous3Production(rs
+								.getLevel());
+						siloUsedUp = true;
+					}
+				}
+			} else if (rs instanceof PowerPlant) {
+				packagePower += Refs
+						.getInfinitePackageProduction(rs.getLevel());
+				boolean accumulatorUsedUp = false;
+				for (Structure n : neighbors) {
+					if (n instanceof Crystal || n instanceof HarvesterCrystal) {
+						continuousPower += Refs.getContinous3Production(rs
+								.getLevel());
+					} else if (n instanceof Accumulator && !accumulatorUsedUp) {
+						continuousPower += Refs.getContinous4Production(rs
+								.getLevel());
+						accumulatorUsedUp = true;
+					} else if (n instanceof Refinery) {
+						continuousCredits += Refs.getContinous2Production(rs
+								.getLevel());
+					}
+				}
+			} else if (rs instanceof Refinery) {
+				packageCredits += Refs.getInfinitePackageProduction(rs
+						.getLevel());
+				boolean powerPlantUsedUp = false;
+				for (Structure n : neighbors) {
+					if (n instanceof Tiberium || n instanceof HarvesterTiberium) {
+						continuousCredits += Refs.getContinous3Production(rs
+								.getLevel());
+					} else if (n instanceof PowerPlant && !powerPlantUsedUp) {
+						continuousCredits += Refs.getContinous4Production(rs
+								.getLevel());
+						powerPlantUsedUp = true;
+					}
 				}
 			}
-			speedPower += (speedBonus > Refs.MAX_SPEED_BONUS ? Refs.MAX_SPEED_BONUS
-					: speedBonus);
-
-		} else if (s instanceof Refinery) {
-			constantCredits++;
-
-			double speedBonus = 0;
-			for (Structure n : neighbors) {
-				if (n instanceof HarvesterTiberium || n instanceof Tiberium) {
-					speedBonus += Refs.SPEED_BONUS;
+			else if(rs instanceof Silo){
+				for (Structure n : neighbors) {
+					if (n instanceof HarvesterTiberium) {
+						continuousTiberium += Refs.getContinous1Production(rs.getLevel());
+					}
+					else if (n instanceof HarvesterCrystal) {
+						continuousCrystal += Refs.getContinous1Production(rs.getLevel());
+					}
 				}
 			}
-			speedCredits += (speedBonus > Refs.MAX_SPEED_BONUS ? Refs.MAX_SPEED_BONUS
-					: speedBonus);
+			else if(rs instanceof Accumulator){
+				for (Structure n : neighbors) {
+					if (n instanceof PowerPlant) {
+						continuousPower += Refs.getContinous2Production(rs.getLevel());
+					}
+				}
+			}
 		}
 	}
 
-	public int getConstantTiberium() {
-		return constantTiberium;
+	public int getContinuousTiberium() {
+		return continuousTiberium;
 	}
 
-	public int getConstantCrystal() {
-		return constantCrystal;
+	public int getContinuousCrystal() {
+		return continuousCrystal;
 	}
 
-	public int getConstantPower() {
-		return constantPower;
+	public int getContinuousPower() {
+		return continuousPower;
 	}
 
-	public int getConstantCredits() {
-		return constantCredits;
+	public int getContinuousCredits() {
+		return continuousCredits;
 	}
-	
-	public double getSpeedCredits() {
-		return speedCredits;
+
+	public int getPackageTiberium() {
+		return (int) packageTiberium;
 	}
-	
-	public double getSpeedPower() {
-		return speedPower;
+
+	public int getPackageCrystal() {
+		return (int) packageCrystal;
+	}
+
+	public int getPackagePower() {
+		return (int) packagePower;
+	}
+
+	public int getPackageCredits() {
+		return (int) packageCredits;
 	}
 
 	public int getBuildings() {

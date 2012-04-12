@@ -6,22 +6,14 @@ import de.ganicoga.client.Main;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.model.Refs;
+import de.ganicoga.client.model.ResourceStructure;
 import de.ganicoga.client.view.StatsView;
 
 public class StatsPresenter implements StatsView.Presenter {
 
 	private StatsView view;
-
-	private int tiberium;
-	private int crystal;
-	private int credits;
-	private int power;
-
-	private int buildings;
-
-	protected double speedCredits;
-
-	protected double speedPower;
+	
+	private BaseModel baseModel;
 
 	public StatsPresenter(StatsView view) {
 		this.view = view;
@@ -38,72 +30,64 @@ public class StatsPresenter implements StatsView.Presenter {
 				.getEventBus()
 				.addHandler(ConfigChangeEvent.TYPE,
 						new ConfigChangeEvent.Handler() {
-
 							@Override
 							public void onConfigChange(ConfigChangeEvent event) {
 								if (event.getModel() instanceof BaseModel) {
-									BaseModel model = (BaseModel) event
+									baseModel = (BaseModel) event
 											.getModel();
-
-									tiberium = model.getConstantTiberium();
-									crystal = model.getConstantCrystal();
-									credits = model.getConstantCredits();
-									power = model.getConstantPower();
-
-									speedPower = model.getSpeedPower();
-									speedCredits = model.getSpeedCredits();
-
-									buildings = model.getBuildings();
-
-									view.setConstructionSlots(String
-											.valueOf(buildings - 1));
-
-									recalculate(view.getLevel());
+									recalculate(9);
 
 								}
 							}
 						});
-
 	}
 
 	@Override
 	public void recalculate(int level) {
-
-		int cTibCalc = 0;
-		int cCryCalc = 0;
-		int cCreCalc = 0;
-		int cPwrCalc = 0;
-
-		int sCreCalc = 0;
-		int sPwrCalc = 0;
-
-		if (level <= 12) {
-			cTibCalc = Refs.MINERAL_TABLE[level] * tiberium;
-			cCryCalc = Refs.MINERAL_TABLE[level] * crystal;
-			cCreCalc = Refs.INFINITE_TABLE[level] * credits;
-			cPwrCalc = Refs.INFINITE_TABLE[level] * power;
-			sCreCalc = (int) (Refs.INFINITE_TABLE[level] * speedCredits);
-			sPwrCalc = (int) (Refs.INFINITE_TABLE[level] * speedPower);
-		} else {
-			cTibCalc = Refs.mineralFn(level) * tiberium;
-			cCryCalc = Refs.mineralFn(level) * crystal;
-			cCreCalc = Refs.infiniteFn(level) * credits;
-			cPwrCalc = Refs.infiniteFn(level) * power;
-			sCreCalc = (int) (Refs.infiniteFn(level) * speedCredits);
-			sPwrCalc = (int) (Refs.infiniteFn(level) * speedPower);
-		}
-
-		view.setConstantTiberium(String.valueOf(cTibCalc));
-		view.setConstantCrystal(String.valueOf(cCryCalc));
-		view.setConstantCredits(String.valueOf(cCreCalc));
-		view.setConstantPower(String.valueOf(cPwrCalc));
 		
-		view.setSpeedBonusCredits(String.valueOf(sCreCalc));
-		view.setSpeedBonusPower(String.valueOf(sPwrCalc));
-		
-		view.setTotalTiberium(String.valueOf(cTibCalc/*+packageBonus*/));
-		view.setTotalCrystal(String.valueOf(cCryCalc/*+packageBonus*/));
-		view.setTotalPower(String.valueOf(cPwrCalc+sPwrCalc/*+packageBonus*/));
-		view.setTotalCredits(String.valueOf(cCreCalc+sCreCalc/*+packageBonus*/));
+		ResourceStructure.level = level;
+		baseModel.update();
+
+		int ctiberium = baseModel
+				.getContinuousTiberium();
+		int ccrystal = baseModel.getContinuousCrystal();
+		int ccredits = baseModel.getContinuousCredits();
+		int cpower = baseModel.getContinuousPower();
+
+		int ptiberium = baseModel.getPackageTiberium();
+		int pcrystal = baseModel.getPackageCrystal();
+		int pcredits = baseModel.getPackageCredits();
+		int ppower = baseModel.getPackagePower();
+
+		int buildings = baseModel.getBuildings();
+
+		view.setContinuousTiberium(String
+				.valueOf(ctiberium));
+		view.setContinuousCrystal(String
+				.valueOf(ccrystal));
+		view.setContinuousCredits(String
+				.valueOf(ccredits));
+		view.setContinuousPower(String
+				.valueOf(cpower));
+
+		view.setPackageTiberium(String
+				.valueOf(ptiberium));
+		view.setPackageCrystal(String
+				.valueOf(pcrystal));
+		view.setPackageCredits(String
+				.valueOf(pcredits));
+		view.setPackagePower(String.valueOf(ppower));
+
+		view.setTotalTiberium(String
+				.valueOf(ctiberium + ptiberium));
+		view.setTotalCrystal(String
+				.valueOf(ccrystal + pcrystal));
+		view.setTotalCredits(String
+				.valueOf(ccredits + pcredits));
+		view.setTotalPower(String.valueOf(cpower
+				+ ppower));
+
+		view.setConstructionSlots(String
+				.valueOf(buildings - 1));	
 	}
 }

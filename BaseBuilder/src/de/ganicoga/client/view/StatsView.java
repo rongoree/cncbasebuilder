@@ -7,7 +7,7 @@ import de.ganicoga.client.BasicPresenter;
 public interface StatsView {
 	public interface Presenter extends BasicPresenter{
 
-		void recalculate(int value);
+		void recalculate(int level);
 		
 	}
 
@@ -19,17 +19,21 @@ public interface StatsView {
 
 	void setConstructionSlots(String slots);
 
-	void setConstantTiberium(String tiberium);
+	void setContinuousTiberium(String tiberium);
 
-	void setConstantCrystal(String crystal);
+	void setContinuousCrystal(String crystal);
 
-	void setConstantCredits(String credits);
+	void setContinuousCredits(String credits);
 
-	void setConstantPower(String power);
+	void setContinuousPower(String power);
 	
-	void setSpeedBonusPower(String power);
-	
-	void setSpeedBonusCredits(String credits);
+	void setPackageTiberium(String tiberium);
+
+	void setPackageCrystal(String crystal);
+
+	void setPackageCredits(String credits);
+
+	void setPackagePower(String power);
 
 	void setVersionNumber(String version);
 

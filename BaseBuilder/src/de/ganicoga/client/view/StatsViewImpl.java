@@ -21,17 +21,21 @@ public class StatsViewImpl extends Composite implements StatsView {
 	}
 
 	@UiField
-	Label constantTiberium;
+	Label continuousTiberium;
 	@UiField
-	Label constantCrystal;
+	Label continuousCrystal;
 	@UiField
-	Label constantPower;
+	Label continuousPower;
 	@UiField
-	Label constantCredits;
+	Label continuousCredits;
 	@UiField
-	Label speedBonusPower;
+	Label packageTiberium;
 	@UiField
-	Label speedBonusCredits;
+	Label packageCrystal;
+	@UiField
+	Label packagePower;
+	@UiField
+	Label packageCredits;
 	@UiField
 	Label totalTiberium;
 	@UiField
@@ -62,6 +66,11 @@ public class StatsViewImpl extends Composite implements StatsView {
 	@UiHandler("integerBox")
 	void onIntegerBoxKeyUp(KeyUpEvent event) {
 		if (integerBox.getValue() != null && integerBox.getValue() != 0) {
+			/**/
+			if (integerBox.getValue() > 12) {
+				integerBox.setValue(12);
+			}
+			/**/
 			presenter.recalculate(integerBox.getValue());
 		}
 
@@ -73,11 +82,12 @@ public class StatsViewImpl extends Composite implements StatsView {
 		if (value < 1) {
 			value = 1;
 		}
-		if (value > 99) {
-			value = 99;
+		if (value > 12) {
+			value = 12;
 		}
 		integerBox.setValue(value);
 		presenter.recalculate(value);
+
 	}
 
 	@UiHandler("integerBox")
@@ -99,34 +109,45 @@ public class StatsViewImpl extends Composite implements StatsView {
 	}
 
 	@Override
-	public void setConstantTiberium(String tiberium) {
-		constantTiberium.setText(tiberium + "/h");
+	public void setContinuousTiberium(String tiberium) {
+		continuousTiberium.setText(tiberium + "/h");
 	}
 
 	@Override
-	public void setConstantCrystal(String crystal) {
-		constantCrystal.setText(crystal + "/h");
+	public void setContinuousCrystal(String crystal) {
+		continuousCrystal.setText(crystal + "/h");
 	}
 
 	@Override
-	public void setConstantCredits(String credits) {
-		constantCredits.setText(credits + "/h");
+	public void setContinuousCredits(String credits) {
+		continuousCredits.setText(credits + "/h");
 	}
 
 	@Override
-	public void setConstantPower(String power) {
-		constantPower.setText(power + "/h");
+	public void setContinuousPower(String power) {
+		continuousPower.setText(power + "/h");
 	}
 	
 	@Override
-	public void setSpeedBonusPower(String power) {
-		speedBonusPower.setText(power + "/h");
+	public void setPackageTiberium(String tiberium) {
+		packageTiberium.setText(tiberium + "/h");
+	}
+
+	@Override
+	public void setPackageCrystal(String crystal) {
+		packageCrystal.setText(crystal + "/h");
+	}
+
+	@Override
+	public void setPackageCredits(String credits) {
+		packageCredits.setText(credits + "/h");
+	}
+
+	@Override
+	public void setPackagePower(String power) {
+		packagePower.setText(power + "/h");
 	}
 	
-	@Override
-	public void setSpeedBonusCredits(String credits) {
-		speedBonusCredits.setText(credits + "/h");
-	}
 
 	@Override
 	public void setVersionNumber(String version) {
