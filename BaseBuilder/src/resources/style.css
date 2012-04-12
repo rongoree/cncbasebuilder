@@ -29,12 +29,17 @@
 }
 
 body {
-	background-color: #999999;
-	background-image: literal("-o-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%))");
-	background-image: literal("-moz-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
-	background-image: literal("-webkit-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
-	background-image: literal("-ms-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
-	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
+	background-color: #555555;
+	background-image: literal("-o-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%))"
+		);
+	background-image: literal("-moz-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
+		);
+	background-image: literal("-webkit-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
+		);
+	background-image: literal("-ms-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
+		);
+	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
+		);
 }
 
 /*Styling for DockLayoutPanels*/
@@ -48,4 +53,8 @@ body {
 	margin: 0.5em auto;
 	width: 872px;
 	height: 100%;
+}
+
+.whiteText {
+	color: #ffffff;
 }

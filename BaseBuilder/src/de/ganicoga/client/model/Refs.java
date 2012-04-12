@@ -3,14 +3,15 @@ package de.ganicoga.client.model;
 public class Refs {
 
 	public static final String VERSION_NUMBER = "0.6";
-
 	public static final int MAX_MINERALS = 7;
+	public static final int MAX_LEVEL = 50;
+	private static final int MAX_TABLE_LEVEL = 12;
 
 	/**
 	 * An array of minute values for each level.
 	 */
 	private static final double[] TIME_STEP_TABLE = new double[] { 0, 1, 2,
-			10 / 3, 10, 20, 30, 60, 120, 150, 180,/**/210, 240 };
+			10 / 3, 10, 20, 30, 60, 120, 150, 180, 240, 360 };
 
 	private static final int[] MINERAL_TABLE = new int[] { 0, 3, 8, 19, 78,
 			200, 373, 907, 2147, 3167, 4440, 6933, 12100 };
@@ -46,21 +47,34 @@ public class Refs {
 	private static final int[] CONTINUOUS_4 = new int[] { 0, 60, 84, 125, 168,
 			216, 269, 326, 386, 456, 533, 624, 726 };
 
-	public static final int mineralFn(int level) {
-		return (int) Math
-				.floor((MINERAL_TABLE[12] * Math.pow(1.2, level - 12)));
-	}
-
 	public static final double getTimeStep(int level) {
-		return TIME_STEP_TABLE[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return TIME_STEP_TABLE[level];
+		}
+		else{
+			return TIME_STEP_TABLE[MAX_TABLE_LEVEL];
+		}
+		
 	}
 
 	public static final double getMineralPackageAmount(int level) {
-		return MINERAL_TABLE[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return MINERAL_TABLE[level];
+		}
+		else{
+			return (int) Math
+					.floor((MINERAL_TABLE[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}
 	}
 
-	public static final double getInfinitePackageAmount(int level) {
-		return INFINITE_TABLE[level];
+	public static final double getInfinitePackageAmount(int level) {		
+		if(level <= MAX_TABLE_LEVEL){
+			return INFINITE_TABLE[level];
+		}
+		else{
+			return (int) Math
+					.floor((INFINITE_TABLE[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}
 	}
 
 	/**
@@ -100,7 +114,13 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous1Production(int level) {
-		return CONTINUOUS_1[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return CONTINUOUS_1[level];
+		}
+		else{
+			return (int) Math
+					.floor((CONTINUOUS_1[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}	
 	}
 
 	/**
@@ -115,7 +135,13 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous2Production(int level) {
-		return CONTINUOUS_2[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return CONTINUOUS_2[level];
+		}
+		else{
+			return (int) Math
+					.floor((CONTINUOUS_2[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}
 	}
 
 	/**
@@ -131,7 +157,13 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous3Production(int level) {
-		return CONTINUOUS_3[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return CONTINUOUS_3[level];
+		}
+		else{
+			return (int) Math
+					.floor((CONTINUOUS_3[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}
 	}
 
 	/**
@@ -146,7 +178,12 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous4Production(int level) {
-		return CONTINUOUS_4[level];
+		if(level <= MAX_TABLE_LEVEL){
+			return CONTINUOUS_4[level];
+		}
+		else{
+			return (int) Math
+					.floor((CONTINUOUS_4[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		}
 	}
-
 }

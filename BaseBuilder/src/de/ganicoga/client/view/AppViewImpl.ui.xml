@@ -11,7 +11,7 @@
 					<table>
 						<tr>
 							<td>
-								<g:Label text="Config:"></g:Label>
+								<g:Label styleName="{INSTANCE.style.whiteText}" text="Config:"></g:Label>
 							</td>
 							<td>
 								<ganicoga:ExtendedTextBox ui:field="configBox"

@@ -35,7 +35,7 @@ public class StatsPresenter implements StatsView.Presenter {
 								if (event.getModel() instanceof BaseModel) {
 									baseModel = (BaseModel) event
 											.getModel();
-									recalculate(9);
+									recalculate(ResourceStructure.level);
 
 								}
 							}

@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.ganicoga.client.model.Refs;
+
 public class StatsViewImpl extends Composite implements StatsView {
 
 	private static StatsViewImplUiBinder uiBinder = GWT
@@ -67,8 +69,8 @@ public class StatsViewImpl extends Composite implements StatsView {
 	void onIntegerBoxKeyUp(KeyUpEvent event) {
 		if (integerBox.getValue() != null && integerBox.getValue() != 0) {
 			/**/
-			if (integerBox.getValue() > 12) {
-				integerBox.setValue(12);
+			if (integerBox.getValue() > Refs.MAX_LEVEL) {
+				integerBox.setValue(Refs.MAX_LEVEL);
 			}
 			/**/
 			presenter.recalculate(integerBox.getValue());
@@ -82,8 +84,8 @@ public class StatsViewImpl extends Composite implements StatsView {
 		if (value < 1) {
 			value = 1;
 		}
-		if (value > 12) {
-			value = 12;
+		if (value > Refs.MAX_LEVEL) {
+			value = Refs.MAX_LEVEL;
 		}
 		integerBox.setValue(value);
 		presenter.recalculate(value);

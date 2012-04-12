@@ -6,7 +6,7 @@ import java.util.List;
 public class HuffmanTree {
 
 	// String shorten
-	private final static String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+	private final static String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-";
 
 	private Node root;
 	private List<int[]> frequencies = new ArrayList<int[]>();

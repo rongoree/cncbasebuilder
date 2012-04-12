@@ -67,7 +67,8 @@ public abstract class AbstractBaseModel {
 
 			}
 		}
-		return Util.encode(sb.toString());
+		return sb.toString();
+		//return Util.encode(sb.toString());
 	}
 
 	public void setStructure(int row, int col, Structure t) {
