@@ -144,6 +144,27 @@ public interface Resources extends ClientBundle {
 	@Source("resources/defense/common/olr.png")
 	ImageResource oilRight();
 
+	@Source("resources/defense/gdi/at.png")
+	ImageResource antiTankBarrier();
+
+	@Source("resources/defense/gdi/gc.png")
+	ImageResource guardianCannon();
+
+	@Source("resources/defense/gdi/mg.png")
+	ImageResource mgNest();
+
+	@Source("resources/defense/gdi/ms.png")
+	ImageResource missileSquad();
+
+	@Source("resources/defense/gdi/pd.png")
+	ImageResource predator();
+
+	@Source("resources/defense/gdi/gd.png")
+	ImageResource guardian();
+
+	@Source("resources/defense/gdi/pb.png")
+	ImageResource pitBull();
+
 	
 
 }

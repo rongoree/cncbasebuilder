@@ -29,8 +29,14 @@
 }
 
 body {
-	background-color: #DDDDDD;
+	background-color: #999999;
+	background-image: literal("-o-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%))");
+	background-image: literal("-moz-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
+	background-image: literal("-webkit-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
+	background-image: literal("-ms-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
+	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)");
 }
+
 /*Styling for DockLayoutPanels*/
 .rootStyle {
 	margin: auto auto;

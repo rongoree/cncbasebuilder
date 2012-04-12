@@ -35,8 +35,8 @@ public class AppPresenter implements AppView.Presenter {
 
 		SelectionPresenter sp = new SelectionPresenter(Main.getClientFactory()
 				.getSelectionView());
-		//sp.setDefenseMode();
-		sp.setBaseMode();
+		sp.setDefenseMode();
+		//sp.setBaseMode();
 		sp.go(view.getSouth());
 
 		StatsPresenter stp = new StatsPresenter(Main.getClientFactory()
