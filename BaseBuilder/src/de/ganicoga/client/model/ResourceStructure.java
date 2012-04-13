@@ -3,8 +3,7 @@ package de.ganicoga.client.model;
 
 public abstract class ResourceStructure extends Structure implements HasLevel {
 	
-	//TODO nonstatic
-	public static int level = 1;
+	private int level = 1;
 	
 	@Override
 	public void reset(){

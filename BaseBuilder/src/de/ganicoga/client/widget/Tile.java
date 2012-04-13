@@ -8,22 +8,30 @@ import gwtquery.plugins.draggable.client.events.DragStopEvent.DragStopEventHandl
 import gwtquery.plugins.draggable.client.gwt.DraggableWidget;
 
 import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import de.ganicoga.client.Main;
 import de.ganicoga.client.Resources;
+import de.ganicoga.client.model.HasLevel;
+import de.ganicoga.client.model.Refs;
 import de.ganicoga.client.model.Structure;
 
-public class Tile extends DraggableWidget<SimplePanel> implements
+public class Tile extends DraggableWidget<FlowPanel> implements
 		HasClickHandlers {
 
 	private Structure structure;
 	private Image image;
+	private Label levelLabel;
 	private int row = -1, column = -1;
 
 	private final String maxSize = "80px";
@@ -32,23 +40,33 @@ public class Tile extends DraggableWidget<SimplePanel> implements
 	public Tile(Structure structure) {
 		this.structure = structure;
 
-		initWidget(new SimplePanel());
+		// drag stuff
+		initWidget(new FlowPanel());
 
 		useCloneAsHelper();
 		setDraggingCursor(Cursor.POINTER);
 		setRevert(RevertOption.ON_INVALID_DROP);
 		setRevertDuration(150);
 		setAppendTo("body");
-
-		setSize(maxSize, maxSize);
+		setDistance(4);
+		//
 
 		addDragStartHandler(onDragStartHandler);
 		addDragStopHandler(onDragStopHandler);
 
 		if (structure != null) {
-			updateImage();
 			setTitle(structure.toString());
+
+			if (structure instanceof HasLevel) {
+				addClickHandler(onClickHandler);
+				levelLabel = new Label();
+				setLevel(((HasLevel) structure).getLevel());
+			}
+
+			setImage(structure.getImageResource());
 		}
+
+		setSize(maxSize, maxSize);
 	}
 
 	public Tile(Structure structure, int row, int col) {
@@ -62,21 +80,24 @@ public class Tile extends DraggableWidget<SimplePanel> implements
 	}
 
 	public void setStructure(Structure structure) {
+		// TODO may conflict with level up/down
 		this.structure = structure;
-		updateImage();
+		setImage(structure.getImageResource());
 	}
 
-	private void updateImage() {
-		image = new Image(structure.getImageResource());
-		//image.setSize(maxSize, maxSize);
-		getOriginalWidget().setWidget(image);
-
-	}
 
 	public void setImage(ImageResource image) {
 		this.image = new Image(image);
-		//this.image.setSize(maxSize, maxSize);
-		getOriginalWidget().setWidget(this.image);
+		
+		getOriginalWidget().clear();
+		getOriginalWidget().add(this.image);
+		
+		if(structure instanceof HasLevel){
+			getOriginalWidget().add(levelLabel);
+			levelLabel.getElement().getStyle().setPosition(Position.RELATIVE);
+			levelLabel.getElement().getStyle().setLeft(2, Unit.PX);
+			levelLabel.getElement().getStyle().setBottom(20, Unit.PX);
+		}
 	}
 
 	public int getRow() {
@@ -126,5 +147,30 @@ public class Tile extends DraggableWidget<SimplePanel> implements
 					Resources.INSTANCE.style().selectedTile());
 		}
 	};
+
+	private static ClickHandler onClickHandler = new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Tile tile = (Tile) event.getSource();
+			HasLevel structure = (HasLevel) tile.getStructure();
+
+			if (Main.getClientFactory().getLevelMode()
+					.equals(Refs.LevelMode.UP)) {
+				structure.setLevel(structure.getLevel() + 1);
+			} else if (Main.getClientFactory().getLevelMode()
+					.equals(Refs.LevelMode.DOWN)) {
+				structure.setLevel(structure.getLevel() - 1);
+			}
+			
+			tile.setLevel(structure.getLevel());
+
+		}
+	};
+
+	protected void setLevel(int level) {
+		levelLabel.setText(String.valueOf(level));
+		
+	}
 
 }

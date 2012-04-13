@@ -64,15 +64,15 @@ public class StatsViewImpl extends Composite implements StatsView {
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-
+/*
 	@UiHandler("integerBox")
 	void onIntegerBoxKeyUp(KeyUpEvent event) {
 		if (integerBox.getValue() != null && integerBox.getValue() != 0) {
-			/**/
+			
 			if (integerBox.getValue() > Refs.MAX_LEVEL) {
 				integerBox.setValue(Refs.MAX_LEVEL);
 			}
-			/**/
+			
 			presenter.recalculate(integerBox.getValue());
 		}
 
@@ -99,7 +99,7 @@ public class StatsViewImpl extends Composite implements StatsView {
 			presenter.recalculate(1);
 		}
 	}
-
+*/
 	@Override
 	public int getLevel() {
 		return integerBox.getValue();

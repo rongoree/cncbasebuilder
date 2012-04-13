@@ -7,7 +7,7 @@ import de.ganicoga.client.BasicPresenter;
 public interface StatsView {
 	public interface Presenter extends BasicPresenter{
 
-		void recalculate(int level);
+		void recalculate();
 		
 	}
 

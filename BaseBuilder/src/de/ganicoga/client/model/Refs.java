@@ -48,32 +48,29 @@ public class Refs {
 			216, 269, 326, 386, 456, 533, 624, 726 };
 
 	public static final double getTimeStep(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return TIME_STEP_TABLE[level];
-		}
-		else{
+		} else {
 			return TIME_STEP_TABLE[MAX_TABLE_LEVEL];
 		}
-		
+
 	}
 
 	public static final double getMineralPackageAmount(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return MINERAL_TABLE[level];
-		}
-		else{
-			return (int) Math
-					.floor((MINERAL_TABLE[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		} else {
+			return (int) Math.floor((MINERAL_TABLE[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL)));
 		}
 	}
 
-	public static final double getInfinitePackageAmount(int level) {		
-		if(level <= MAX_TABLE_LEVEL){
+	public static final double getInfinitePackageAmount(int level) {
+		if (level <= MAX_TABLE_LEVEL) {
 			return INFINITE_TABLE[level];
-		}
-		else{
-			return (int) Math
-					.floor((INFINITE_TABLE[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		} else {
+			return (int) Math.floor((INFINITE_TABLE[MAX_TABLE_LEVEL] * Math
+					.pow(1.2, level - MAX_TABLE_LEVEL)));
 		}
 	}
 
@@ -114,13 +111,12 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous1Production(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_1[level];
+		} else {
+			return (int) Math.floor((CONTINUOUS_1[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL)));
 		}
-		else{
-			return (int) Math
-					.floor((CONTINUOUS_1[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
-		}	
 	}
 
 	/**
@@ -135,12 +131,11 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous2Production(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_2[level];
-		}
-		else{
-			return (int) Math
-					.floor((CONTINUOUS_2[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		} else {
+			return (int) Math.floor((CONTINUOUS_2[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL)));
 		}
 	}
 
@@ -157,12 +152,11 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous3Production(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_3[level];
-		}
-		else{
-			return (int) Math
-					.floor((CONTINUOUS_3[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
+		} else {
+			return (int) Math.floor((CONTINUOUS_3[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL)));
 		}
 	}
 
@@ -178,12 +172,15 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final int getContinous4Production(int level) {
-		if(level <= MAX_TABLE_LEVEL){
+		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_4[level];
+		} else {
+			return (int) Math.floor((CONTINUOUS_4[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL)));
 		}
-		else{
-			return (int) Math
-					.floor((CONTINUOUS_4[MAX_TABLE_LEVEL] * Math.pow(1.2, level - MAX_TABLE_LEVEL)));
-		}
+	}
+
+	public enum LevelMode {
+		UP, DOWN, NONE;
 	}
 }

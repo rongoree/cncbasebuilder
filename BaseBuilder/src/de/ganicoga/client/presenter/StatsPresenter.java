@@ -6,7 +6,6 @@ import de.ganicoga.client.Main;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.model.Refs;
-import de.ganicoga.client.model.ResourceStructure;
 import de.ganicoga.client.view.StatsView;
 
 public class StatsPresenter implements StatsView.Presenter {
@@ -35,7 +34,7 @@ public class StatsPresenter implements StatsView.Presenter {
 								if (event.getModel() instanceof BaseModel) {
 									baseModel = (BaseModel) event
 											.getModel();
-									recalculate(ResourceStructure.level);
+									recalculate();
 
 								}
 							}
@@ -43,10 +42,9 @@ public class StatsPresenter implements StatsView.Presenter {
 	}
 
 	@Override
-	public void recalculate(int level) {
+	public void recalculate() {
 		
-		ResourceStructure.level = level;
-		baseModel.update();
+		//baseModel.update();
 
 		int ctiberium = baseModel
 				.getContinuousTiberium();

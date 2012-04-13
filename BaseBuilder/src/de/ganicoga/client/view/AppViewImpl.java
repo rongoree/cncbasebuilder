@@ -15,8 +15,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.ganicoga.client.Main;
 import de.ganicoga.client.model.BaseModel;
+import de.ganicoga.client.model.Refs.LevelMode;
 import de.ganicoga.client.widget.ExtendedTextBox;
+import com.google.gwt.user.client.ui.ToggleButton;
 
 public class AppViewImpl extends Composite implements AppView {
 
@@ -42,6 +45,8 @@ public class AppViewImpl extends Composite implements AppView {
 	Button selectButton;
 	@UiField
 	Button loadButton;
+	@UiField ToggleButton lvlUpButton;
+	@UiField ToggleButton lvlDownButton;
 
 	private Presenter presenter;
 
@@ -127,5 +132,26 @@ public class AppViewImpl extends Composite implements AppView {
 			return "";
 		}
 		return s;
+	}
+	@UiHandler("lvlUpButton")
+	void onLvlUpButtonClick(ClickEvent event) {
+		boolean state = lvlUpButton.getValue();
+		if(state){
+			Main.getClientFactory().setLevelMode(LevelMode.UP);
+			lvlDownButton.setValue(false);
+		}else{
+			Main.getClientFactory().setLevelMode(LevelMode.NONE);
+		}
+	}
+	@UiHandler("lvlDownButton")
+	void onLvlDownButtonClick(ClickEvent event) {
+		boolean state = lvlDownButton.getValue();
+		if(state){
+			Main.getClientFactory().setLevelMode(LevelMode.DOWN);
+			lvlUpButton.setValue(false);
+		}else{
+			Main.getClientFactory().setLevelMode(LevelMode.NONE);
+		}
+		
 	}
 }

@@ -3,7 +3,7 @@ package de.ganicoga.client.model;
 
 public abstract class UniqueStructure extends Structure implements HasLevel {
 
-	protected int level;
+	protected int level = 1;
 
 	@Override
 	public void setLevel(int level) {
