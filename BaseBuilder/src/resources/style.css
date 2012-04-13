@@ -2,16 +2,6 @@
 	gwt-image: "placedTileBG";
 }
 
-.selectionBackground {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.centered {
-	margin-left: auto;
-	margin-right: auto;
-}
-
 @sprite .selectionBackground td {
 	gwt-image: "tileSelectorBG";
 }
@@ -30,7 +20,7 @@
 
 body {
 	background-color: #555555;
-	background-image: literal("-o-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%))"
+	background-image: literal("-o-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
 		);
 	background-image: literal("-moz-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
 		);
@@ -38,7 +28,7 @@ body {
 		);
 	background-image: literal("-ms-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
 		);
-	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
+ 	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)" 
 		);
 }
 
@@ -53,6 +43,16 @@ body {
 	margin: 0.5em auto;
 	width: 872px;
 	height: 100%;
+}
+
+.selectionBackground {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.topPanel table {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .whiteText {

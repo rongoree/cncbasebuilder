@@ -2,7 +2,7 @@ package de.ganicoga.client.model;
 
 public class Refs {
 
-	public static final String VERSION_NUMBER = "0.6";
+	public static final String VERSION_NUMBER = "0.6.1";
 	public static final int MAX_MINERALS = 7;
 	public static final int MAX_LEVEL = 50;
 	private static final int MAX_TABLE_LEVEL = 12;

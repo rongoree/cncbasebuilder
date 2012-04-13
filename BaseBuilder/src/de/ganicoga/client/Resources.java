@@ -25,7 +25,7 @@ public interface Resources extends ClientBundle {
 		
 		String selectedTile();
 		
-		String centered();
+		String topPanel();
 		
 		String whiteText();
 
