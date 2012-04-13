@@ -1,5 +1,8 @@
 package de.ganicoga.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Util {
 	
@@ -118,46 +121,23 @@ public class Util {
 			st = 0;
 			break;
 		}
-
 		return st;
-
-	}
-
-	private static final String baseDigits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-	public static String intToBase(int base, int decimalNumber) {
-		String tempVal = decimalNumber == 0 ? "0" : "";
-		int mod = 0;
-
-		while (decimalNumber != 0) {
-			mod = decimalNumber % base;
-			tempVal = baseDigits.substring(mod, mod + 1) + tempVal;
-			decimalNumber = decimalNumber / base;
-		}
-
-		return tempVal;
-	}
-
-	public static int baseToInt(int base, String number) {
-		int iterator = number.length();
-		int returnValue = 0;
-		int multiplier = 1;
-
-		while (iterator > 0) {
-			returnValue = returnValue
-					+ (baseDigits.indexOf(number.substring(iterator - 1,
-							iterator)) * multiplier);
-			multiplier = multiplier * base;
-			--iterator;
-		}
-		return returnValue;
-	}
-
-	public static String encode(String string) {
-		return tree.encode(string);
 	}
 	
-	public static String decode(String string) {
+	public static List<Integer> oldString2IntList(String string){
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < string.length(); i++) {
+			list.add(convert(string.charAt(i)));
+		}
+		return list;
+		
+	}
+
+	public static String encode(List<Integer> decoded) {
+		return tree.encode(decoded);
+	}
+	
+	public static List<Integer> decode(String string) {
 		return tree.decode(string);
 	}
 }

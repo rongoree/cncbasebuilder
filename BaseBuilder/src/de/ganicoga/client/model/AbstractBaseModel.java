@@ -35,40 +35,45 @@ public abstract class AbstractBaseModel {
 	private Structure[][] toGrid(String token) {
 
 		Structure[][] sa = new Structure[gridRows][gridCols];
-		
-		if(token.length() != 72){
-			token = Util.decode(token);
+
+		List<Integer> decodedList = null;
+		// old encoding
+		if (token.length() == gridSize) {
+
+			decodedList = Util.oldString2IntList(token);
+		}
+		// new encoding
+		else {
+			decodedList = Util.decode(token);
 		}
 
-		String[] rows = new String[gridRows];
+		List<List<Integer>> rows = new ArrayList<List<Integer>>();
 		int start = 0;
 		for (int i = 0; i < gridRows; i++) {
 
-			rows[i] = token.substring(start, start + gridCols);
+			rows.add(decodedList.subList(start, start + gridCols));
 			start += gridCols;
-
 			for (int j = 0; j < gridCols; j++) {
 				sa[i][j] = Main.getClientFactory().getStructure(
-						Util.convert(rows[i].charAt(j)));
+						rows.get(i).get(j).intValue());
 			}
 		}
 		return sa;
 	}
 
 	private String toString(Structure[][] grid) {
-		StringBuilder sb = new StringBuilder(gridSize);
+		List<Integer> sb = new ArrayList<Integer>();
 		for (int i = 0; i < gridRows; i++) {
 			for (int j = 0; j < gridCols; j++) {
 				if (grid[i][j] == null) {
-					sb.append('0');
+					sb.add(0);
 				} else {
-					sb.append(Util.convert(grid[i][j].getId()));
+					sb.add(grid[i][j].getId());
 				}
 
 			}
 		}
-		return sb.toString();
-		//return Util.encode(sb.toString());
+		return Util.encode(sb);
 	}
 
 	public void setStructure(int row, int col, Structure t) {

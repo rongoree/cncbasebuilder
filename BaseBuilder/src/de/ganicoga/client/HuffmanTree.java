@@ -6,7 +6,7 @@ import java.util.List;
 public class HuffmanTree {
 
 	// String shorten
-	private final static String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-";
+	private final static String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
 
 	private Node root;
 	private List<int[]> frequencies = new ArrayList<int[]>();
@@ -41,7 +41,7 @@ public class HuffmanTree {
 
 		for (int[] i : frequencies) {
 			Node node = new Node();
-			node.symbol = Util.convert(i[0]);
+			node.symbol = i[0];
 			node.frequency = i[1];
 			nodes.add(node);
 		}
@@ -87,11 +87,11 @@ public class HuffmanTree {
 
 	}
 
-	public String encode(String source) {
+	public String encode(List<Integer> source) {
 		List<Byte> encodedSource = new ArrayList<Byte>();
 
-		for (int i = 0; i < source.length(); i++) {
-			List<Byte> encodedSymbol = this.root.traverse(source.charAt(i),
+		for (int i = 0; i < source.size(); i++) {
+			List<Byte> encodedSymbol = this.root.traverse(source.get(i),
 					new ArrayList<Byte>());
 			encodedSource.addAll(encodedSymbol);
 		}
@@ -101,13 +101,13 @@ public class HuffmanTree {
 		return bits2String(bits);
 	}
 
-	public String decode(String string) {
+	public List<Integer> decode(String string) {
 		return decode(string2Bits(string));
 	}
 
-	private String decode(Byte[] encoded) {
+	private List<Integer> decode(Byte[] encoded) {
 		Node current = this.root;
-		String decoded = "";
+		List<Integer> decoded = new ArrayList<Integer>() ;
 
 		for (byte bit : encoded) {
 			if (bit == 1) {
@@ -121,7 +121,7 @@ public class HuffmanTree {
 			}
 
 			if (isLeaf(current)) {
-				decoded += current.symbol;
+				decoded.add(current.symbol);
 				current = this.root;
 			}
 		}
@@ -176,13 +176,13 @@ public class HuffmanTree {
 
 	private class Node {
 
-		public char symbol;
+		public int symbol;
 		public int frequency = 0;
 		public Node left = null;
 		public Node right = null;
 		public boolean processed = false;;
 
-		public List<Byte> traverse(char symbol, List<Byte> data) {
+		public List<Byte> traverse(int symbol, List<Byte> data) {
 			// Leaf
 			if (this.right == null && this.left == null) {
 				if (symbol == this.symbol) {

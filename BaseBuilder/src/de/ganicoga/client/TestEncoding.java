@@ -10,7 +10,7 @@ public class TestEncoding {
 		HuffmanTree tree = new HuffmanTree();
 
 		String[] input = new String[]{
-				"60G0B0C00000040500F02900900007040440H57A088A0029075700E00475940000000000",
+				"60G0B0C00000040500F05900900007040440H57A08800029A75700E00475940000000000",
 				"60B000000040440500C09009500250440000778900010A757A0000072700000000000000",
 				"0000H0G0600200A94000007570B04007570000948A94F05948770000040220C0000D0E00",
 				"60G000000002594400B077A8990048475040F9909A800004077700C0002220000D000000",
@@ -74,9 +74,9 @@ public class TestEncoding {
 		
 		System.out.println();
 		
-		
-		System.out.println(tree.encode(input[0]));
-		System.out.println(tree.encode(input[0]).length());
+		String s = tree.encode(Util.oldString2IntList(input[0]));
+		System.out.println(s);
+		System.out.println(s.length());
 		
 
 	}
