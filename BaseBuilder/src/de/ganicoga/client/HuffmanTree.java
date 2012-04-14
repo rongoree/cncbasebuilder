@@ -87,6 +87,10 @@ public class HuffmanTree {
 
 	}
 
+	private boolean isLeaf(Node node) {
+		return (node.left == null && node.right == null);
+	}
+
 	public String encode(List<Integer> source) {
 		List<Byte> encodedSource = new ArrayList<Byte>();
 
@@ -96,18 +100,16 @@ public class HuffmanTree {
 			encodedSource.addAll(encodedSymbol);
 		}
 
-		Byte[] bits = (encodedSource.toArray(new Byte[0]));
-
-		return bits2String(bits);
+		return bits2String(encodedSource);
 	}
 
 	public List<Integer> decode(String string) {
 		return decode(string2Bits(string));
 	}
 
-	private List<Integer> decode(Byte[] encoded) {
+	private List<Integer> decode(List<Byte> encoded) {
 		Node current = this.root;
-		List<Integer> decoded = new ArrayList<Integer>() ;
+		List<Integer> decoded = new ArrayList<Integer>();
 
 		for (byte bit : encoded) {
 			if (bit == 1) {
@@ -129,16 +131,83 @@ public class HuffmanTree {
 		return decoded;
 	}
 
-	private boolean isLeaf(Node node) {
-		return (node.left == null && node.right == null);
+	public List<Byte> encode_levels(List<Integer> levels) {
+		List<Byte> out = new ArrayList<Byte>();
+
+		int prefix = 32;
+
+		int n = 8;
+		while (n-- > 0){
+			out.add((byte) (((1 << n) & prefix) != 0 ? 1 : 0));
+		}
+
+		// create a new array prepending the length of the levels
+		List<Integer> len_levels = new ArrayList<Integer>();
+		len_levels.add(levels.size());
+		for (int l : levels) {
+			len_levels.add(l);
+		}
+		for (int l : len_levels) {
+			int q = (l / prefix);
+			while (q-- > 0) {
+				out.add((byte) 1);
+			}
+			out.add((byte) 0);
+
+			int i = get_golomb_len(prefix);
+			while (i-- > 0) {
+				out.add((byte) (((1 << i) & l) != 0 ? 1 : 0));
+			}
+		}
+		return /*bits2String*/(out);
 	}
 
-	private static String bits2String(Byte[] bits) {
+	public List<Integer> decode_levels(String encoded) {
+		return decode_levels(string2Bits(encoded));
+	}
+
+	public List<Integer> decode_levels(List<Byte> bits) {
+		List<Integer> out = new ArrayList<Integer>();
+
+		int prefix = 0, n = 8;
+		while (n-- > 0) {
+			prefix += bits.remove(0) != 0 ? (1 << n) : 0;
+		}
+
+		int level_len = -1;
+
+		while (bits.size() > 0 && (level_len == -1 || out.size() < level_len)) {
+			int q = 0;
+			while (bits.remove(0) == 1) {
+				q++;
+			}
+			int level = 0;
+
+			int i = get_golomb_len(prefix);
+			while (i-- > 0) {
+				level += bits.remove(0) != 0 ? 1 << i : 0;
+			}
+
+			if (level_len == -1) {
+				level_len = level + q * prefix;
+			} else {
+				out.add(level + q * prefix);
+			}
+		}
+
+		return out;
+	}
+
+	private int get_golomb_len(int prefix) {
+		return (int) (Math.log(prefix) / Math.log(2));
+	}
+
+	private static String bits2String(List<Byte> bits) {
 		String out = "";
 		byte cur = 0;
 
-		for (int i = 0; i < bits.length; i++) {
-			cur |= bits[i] << (i % 6);
+		for (int i = 0; i < bits.size(); i++) {
+			cur |= bits.get(i) << (i % 6);
 
 			if (i % 6 == 5 && i > 0) {
 				out += ALPHABET.charAt(cur);
@@ -148,13 +217,13 @@ public class HuffmanTree {
 
 		// padding
 		out += ALPHABET.charAt(cur);
-		out += ALPHABET.charAt(bits.length % 6);
+		out += ALPHABET.charAt(bits.size() % 6);
 
 		return out;
 
 	}
 
-	private static Byte[] string2Bits(String str) {
+	private static List<Byte> string2Bits(String str) {
 		List<Byte> out = new ArrayList<Byte>();
 
 		int c = 0;
@@ -171,7 +240,7 @@ public class HuffmanTree {
 			out.add((byte) (ALPHABET.indexOf(str.charAt(c)) >> i & 1));
 		}
 
-		return out.toArray(new Byte[0]);
+		return out;
 	}
 
 	private class Node {

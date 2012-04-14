@@ -1,6 +1,8 @@
 package de.ganicoga.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestEncoding {
@@ -52,6 +54,23 @@ public class TestEncoding {
 				"0000B0G06004A5004900977904F04055A89009877704J040A5590000097775C0000DAE00",
 				};
 		
+		List<Integer> levelList = new ArrayList<Integer>();
+		levelList.add(16);
+		levelList.add(16);
+		levelList.add(14);
+		levelList.add(14);
+		levelList.add(11);
+		levelList.add(15);
+		levelList.add(16);
+		levelList.add(12);
+		levelList.add(12);
+		levelList.add(13);
+		levelList.add(16);
+		levelList.add(11);
+		levelList.add(13);
+		levelList.add(14);
+		levelList.add(15);
+		/*
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 		
 		for (int i = 0; i < input.length; i++) {
@@ -77,6 +96,11 @@ public class TestEncoding {
 		String s = tree.encode(Util.oldString2IntList(input[0]));
 		System.out.println(s);
 		System.out.println(s.length());
+		*/
+		System.out.println();
+		
+		List<Byte> l = tree.encode_levels(levelList);
+		System.out.println(tree.decode_levels(l).equals(levelList));
 		
 
 	}
