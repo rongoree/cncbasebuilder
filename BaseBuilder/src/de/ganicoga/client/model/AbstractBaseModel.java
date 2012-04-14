@@ -3,6 +3,7 @@ package de.ganicoga.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.ganicoga.client.HuffmanTree.MultiReturnList;
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Util;
 
@@ -27,8 +28,8 @@ public abstract class AbstractBaseModel {
 		this.grid = grid;
 		collectAll();
 	}
-	
-	public void update(){
+
+	public void update() {
 		collectAll();
 	}
 
@@ -36,48 +37,65 @@ public abstract class AbstractBaseModel {
 
 	protected abstract void collect(Structure s, List<Structure> neighbors);
 
+	@SuppressWarnings("unchecked")
 	private Structure[][] toGrid(String token) {
 
 		Structure[][] sa = new Structure[gridRows][gridCols];
 
-		List<Integer> decodedList = null;
+		List<Integer> decodedStructureList = null;
+		List<Integer> decodedLevelList = null;
 		// old encoding
 		if (token.length() == gridSize) {
-
-			decodedList = Util.oldString2IntList(token);
+			decodedStructureList = Util.oldString2IntList(token);
 		}
 		// new encoding
 		else {
-			decodedList = Util.decode(token);
+			MultiReturnList m = Util.decode(token);
+			decodedLevelList = (List<Integer>) m.getFirstList();
+			decodedStructureList = (List<Integer>) m.getSecondList();
 		}
 
 		List<List<Integer>> rows = new ArrayList<List<Integer>>();
+		List<List<Integer>> rowsL = new ArrayList<List<Integer>>();
+
 		int start = 0;
 		for (int i = 0; i < gridRows; i++) {
 
-			rows.add(decodedList.subList(start, start + gridCols));
+			rows.add(decodedStructureList.subList(start, start + gridCols));
+			rowsL.add(decodedLevelList.subList(start, start + gridCols));
+
 			start += gridCols;
 			for (int j = 0; j < gridCols; j++) {
 				sa[i][j] = Main.getClientFactory().getStructure(
 						rows.get(i).get(j).intValue());
+				if (sa[i][j] instanceof HasLevel) {
+					((HasLevel) sa[i][j]).setLevel(rowsL.get(i).get(j)
+							.intValue());
+				}
 			}
 		}
 		return sa;
 	}
 
 	private String toString(Structure[][] grid) {
-		List<Integer> sb = new ArrayList<Integer>();
+		List<Integer> sl = new ArrayList<Integer>();
+		List<Integer> ll = new ArrayList<Integer>();
 		for (int i = 0; i < gridRows; i++) {
 			for (int j = 0; j < gridCols; j++) {
 				if (grid[i][j] == null) {
-					sb.add(0);
+					sl.add(0);
+					ll.add(0);
 				} else {
-					sb.add(grid[i][j].getId());
+					sl.add(grid[i][j].getId());
+					if (grid[i][j] instanceof HasLevel) {
+						ll.add(((HasLevel) grid[i][j]).getLevel());
+					} else {
+						ll.add(0);
+					}
 				}
-
 			}
 		}
-		return Util.encode(sb);
+		return Util.encode(sl, ll);
 	}
 
 	public void setStructure(int row, int col, Structure t) {

@@ -3,6 +3,8 @@ package de.ganicoga.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.ganicoga.client.HuffmanTree.MultiReturnList;
+
 
 public class Util {
 	
@@ -133,11 +135,11 @@ public class Util {
 		
 	}
 
-	public static String encode(List<Integer> decoded) {
-		return tree.encode(decoded);
+	public static String encode(List<Integer> decodedLevels, List<Integer> decodedStructures) {
+		return tree.encode(decodedLevels, decodedStructures);
 	}
 	
-	public static List<Integer> decode(String string) {
+	public static MultiReturnList decode(String string) {
 		return tree.decode(string);
 	}
 }

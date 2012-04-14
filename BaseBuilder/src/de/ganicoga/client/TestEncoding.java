@@ -99,8 +99,8 @@ public class TestEncoding {
 		*/
 		System.out.println();
 		
-		List<Byte> l = tree.encode_levels(levelList);
-		System.out.println(tree.decode_levels(l).equals(levelList));
+		List<Byte> l = tree.encodeLevels(levelList);
+		System.out.println(tree.decodeLevels(l).getFirstList().equals(levelList));
 		
 
 	}

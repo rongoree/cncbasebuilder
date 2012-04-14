@@ -91,23 +91,44 @@ public class HuffmanTree {
 		return (node.left == null && node.right == null);
 	}
 
-	public String encode(List<Integer> source) {
-		List<Byte> encodedSource = new ArrayList<Byte>();
+	public String encode(List<Integer> structures, List<Integer> levels) {
 
-		for (int i = 0; i < source.size(); i++) {
-			List<Byte> encodedSymbol = this.root.traverse(source.get(i),
+		List<Byte> encodedStructures = encodeStructures(structures);
+		List<Byte> encodedLevels = encodeLevels(levels);
+
+		List<Byte> fullEncoded = new ArrayList<Byte>();
+		fullEncoded.addAll(encodedLevels);
+		fullEncoded.addAll(encodedStructures);
+		
+		return bits2String(fullEncoded);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public MultiReturnList decode(String string){
+		
+		List<Byte> byteArray = string2Bits(string);
+		
+		MultiReturnList m = decodeLevels(byteArray);
+		
+		return new MultiReturnList(m.getFirstList(), decodeStructures((List<Byte>)m.getSecondList()));
+		
+	}
+	
+	public List<Byte> encodeStructures(List<Integer> structures){
+		List<Byte> encodedSource = new ArrayList<Byte>();
+		for (int i = 0; i < structures.size(); i++) {
+			List<Byte> encodedSymbol = this.root.traverse(structures.get(i),
 					new ArrayList<Byte>());
 			encodedSource.addAll(encodedSymbol);
 		}
-
-		return bits2String(encodedSource);
+		return encodedSource;
 	}
 
-	public List<Integer> decode(String string) {
-		return decode(string2Bits(string));
+	public List<Integer> decodeStructures(String string) {
+		return decodeStructures(string2Bits(string));
 	}
 
-	private List<Integer> decode(List<Byte> encoded) {
+	public List<Integer> decodeStructures(List<Byte> encoded) {
 		Node current = this.root;
 		List<Integer> decoded = new ArrayList<Integer>();
 
@@ -131,7 +152,7 @@ public class HuffmanTree {
 		return decoded;
 	}
 
-	public List<Byte> encode_levels(List<Integer> levels) {
+	public List<Byte> encodeLevels(List<Integer> levels) {
 		List<Byte> out = new ArrayList<Byte>();
 
 		int prefix = 32;
@@ -159,14 +180,15 @@ public class HuffmanTree {
 				out.add((byte) (((1 << i) & l) != 0 ? 1 : 0));
 			}
 		}
-		return /*bits2String*/(out);
+		return out;
 	}
 
-	public List<Integer> decode_levels(String encoded) {
-		return decode_levels(string2Bits(encoded));
+	@SuppressWarnings("unchecked")
+	public List<Integer> decodeLevels(String encoded) {
+		return (List<Integer>) decodeLevels(string2Bits(encoded)).getFirstList();
 	}
 
-	public List<Integer> decode_levels(List<Byte> bits) {
+	public MultiReturnList decodeLevels(List<Byte> bits) {
 		List<Integer> out = new ArrayList<Integer>();
 
 		int prefix = 0, n = 8;
@@ -194,8 +216,8 @@ public class HuffmanTree {
 				out.add(level + q * prefix);
 			}
 		}
-
-		return out;
+		
+		return new MultiReturnList(out, bits);
 	}
 
 	private int get_golomb_len(int prefix) {
@@ -286,6 +308,22 @@ public class HuffmanTree {
 					return right;
 				}
 			}
+		}
+	}
+
+	public class MultiReturnList {
+		private List<? extends Number> firstList;
+		private List<? extends Number> secondList;
+		public MultiReturnList(List<? extends Number> firstList,
+				List<? extends Number> secondList) {
+			this.firstList = firstList;
+			this.secondList = secondList;
+		}
+		public List<? extends Number> getFirstList() {
+			return firstList;
+		}
+		public List<? extends Number> getSecondList() {
+			return secondList;
 		}
 	}
 }
