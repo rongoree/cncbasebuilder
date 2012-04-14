@@ -13,7 +13,7 @@ import de.ganicoga.client.model.resource.Tiberium;
 
 public class BaseModel extends AbstractBaseModel {
 
-	private int continuousTiberium, continuousCrystal, continuousPower,
+	private double continuousTiberium, continuousCrystal, continuousPower,
 			continuousCredits;
 	private double packageTiberium, packageCrystal, packagePower,
 			packageCredits;
@@ -25,10 +25,6 @@ public class BaseModel extends AbstractBaseModel {
 
 	public BaseModel() {
 		super();
-	}
-	
-	public void update(){
-		collectAll();
 	}
 
 	@Override
@@ -115,21 +111,21 @@ public class BaseModel extends AbstractBaseModel {
 						powerPlantUsedUp = true;
 					}
 				}
-			}
-			else if(rs instanceof Silo){
+			} else if (rs instanceof Silo) {
 				for (Structure n : neighbors) {
 					if (n instanceof HarvesterTiberium) {
-						continuousTiberium += Refs.getContinous1Production(rs.getLevel());
-					}
-					else if (n instanceof HarvesterCrystal) {
-						continuousCrystal += Refs.getContinous1Production(rs.getLevel());
+						continuousTiberium += Refs.getContinous1Production(rs
+								.getLevel());
+					} else if (n instanceof HarvesterCrystal) {
+						continuousCrystal += Refs.getContinous1Production(rs
+								.getLevel());
 					}
 				}
-			}
-			else if(rs instanceof Accumulator){
+			} else if (rs instanceof Accumulator) {
 				for (Structure n : neighbors) {
 					if (n instanceof PowerPlant) {
-						continuousPower += Refs.getContinous2Production(rs.getLevel());
+						continuousPower += Refs.getContinous2Production(rs
+								.getLevel());
 					}
 				}
 			}
@@ -137,19 +133,19 @@ public class BaseModel extends AbstractBaseModel {
 	}
 
 	public int getContinuousTiberium() {
-		return continuousTiberium;
+		return (int) continuousTiberium;
 	}
 
 	public int getContinuousCrystal() {
-		return continuousCrystal;
+		return (int) continuousCrystal;
 	}
 
 	public int getContinuousPower() {
-		return continuousPower;
+		return (int) continuousPower;
 	}
 
 	public int getContinuousCredits() {
-		return continuousCredits;
+		return (int) continuousCredits;
 	}
 
 	public int getPackageTiberium() {

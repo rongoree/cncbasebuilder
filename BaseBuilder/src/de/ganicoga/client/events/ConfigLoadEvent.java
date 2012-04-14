@@ -13,8 +13,20 @@ public class ConfigLoadEvent extends GwtEvent<Handler> {
 
 	public static Type<Handler> TYPE = new Type<Handler>();
 	private String string;
+	
+	/**
+	 * Used to load a config string to the grid
+	 * @param config
+	 */
 	public ConfigLoadEvent(String config) {
 		this.string = config;
+	}
+
+	/**
+	 * Used to clear the model
+	 */
+	public ConfigLoadEvent() {
+		this.string = "";
 	}
 
 	@Override

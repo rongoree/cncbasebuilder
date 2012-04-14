@@ -4,7 +4,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.ganicoga.client.Main;
-import de.ganicoga.client.events.ClearEvent;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.events.ConfigLoadEvent;
 import de.ganicoga.client.view.AppView;
@@ -56,7 +55,7 @@ public class AppPresenter implements AppView.Presenter {
 
 	@Override
 	public void onClearClick() {
-		Main.getClientFactory().getEventBus().fireEvent(new ClearEvent());
+		Main.getClientFactory().getEventBus().fireEvent(new ConfigLoadEvent());
 	}
 
 	@Override

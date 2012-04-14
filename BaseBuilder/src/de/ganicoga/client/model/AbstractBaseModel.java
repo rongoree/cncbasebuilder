@@ -27,6 +27,10 @@ public abstract class AbstractBaseModel {
 		this.grid = grid;
 		collectAll();
 	}
+	
+	public void update(){
+		collectAll();
+	}
 
 	protected abstract void collectAll();
 

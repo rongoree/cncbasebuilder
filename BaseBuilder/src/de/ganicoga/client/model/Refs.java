@@ -2,7 +2,7 @@ package de.ganicoga.client.model;
 
 public class Refs {
 
-	public static final String VERSION_NUMBER = "0.6.1";
+	public static final String VERSION_NUMBER = "0.7";
 	public static final int MAX_MINERALS = 7;
 	public static final int MAX_LEVEL = 50;
 	private static final int MAX_TABLE_LEVEL = 12;
@@ -110,12 +110,12 @@ public class Refs {
 	 * @return The continuous resource production per hour of the producing
 	 *         structure at the specified level.
 	 */
-	public static final int getContinous1Production(int level) {
+	public static final double getContinous1Production(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_1[level];
 		} else {
-			return (int) Math.floor((CONTINUOUS_1[MAX_TABLE_LEVEL] * Math.pow(
-					1.2, level - MAX_TABLE_LEVEL)));
+			return CONTINUOUS_1[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
 		}
 	}
 
@@ -130,12 +130,12 @@ public class Refs {
 	 * @return The continuous resource production per hour of the producing
 	 *         structure at the specified level.
 	 */
-	public static final int getContinous2Production(int level) {
+	public static final double getContinous2Production(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_2[level];
 		} else {
-			return (int) Math.floor((CONTINUOUS_2[MAX_TABLE_LEVEL] * Math.pow(
-					1.2, level - MAX_TABLE_LEVEL)));
+			return CONTINUOUS_2[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
 		}
 	}
 
@@ -151,12 +151,12 @@ public class Refs {
 	 * @return The continuous resource production per hour of the producing
 	 *         structure at the specified level.
 	 */
-	public static final int getContinous3Production(int level) {
+	public static final double getContinous3Production(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_3[level];
 		} else {
-			return (int) Math.floor((CONTINUOUS_3[MAX_TABLE_LEVEL] * Math.pow(
-					1.2, level - MAX_TABLE_LEVEL)));
+			return CONTINUOUS_3[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
 		}
 	}
 
@@ -171,12 +171,12 @@ public class Refs {
 	 * @return The continuous resource production per hour of the producing
 	 *         structure at the specified level.
 	 */
-	public static final int getContinous4Production(int level) {
+	public static final double getContinous4Production(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_4[level];
 		} else {
-			return (int) Math.floor((CONTINUOUS_4[MAX_TABLE_LEVEL] * Math.pow(
-					1.2, level - MAX_TABLE_LEVEL)));
+			return CONTINUOUS_4[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
 		}
 	}
 

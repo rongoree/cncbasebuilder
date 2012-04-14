@@ -13,21 +13,21 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.HasMouseWheelHandlers;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
-import de.ganicoga.client.Main;
 import de.ganicoga.client.Resources;
 import de.ganicoga.client.model.HasLevel;
-import de.ganicoga.client.model.Refs;
 import de.ganicoga.client.model.Structure;
 
 public class Tile extends DraggableWidget<FlowPanel> implements
-		HasClickHandlers {
+		HasClickHandlers, HasMouseWheelHandlers {
 
 	private Structure structure;
 	private Image image;
@@ -36,11 +36,12 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 
 	private final String maxSize = "80px";
 	private HandlerRegistration handlerRegistration;
+	private HandlerRegistration handlerRegistrationWheel;
 
 	public Tile(Structure structure) {
 		this.structure = structure;
 
-		// drag stuff
+		// draggable stuff
 		initWidget(new FlowPanel());
 
 		useCloneAsHelper();
@@ -48,24 +49,25 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 		setRevert(RevertOption.ON_INVALID_DROP);
 		setRevertDuration(150);
 		setAppendTo("body");
-		setDistance(4);
+		setDistance(2);
 		//
 
+		// change style to selected when dragging
 		addDragStartHandler(onDragStartHandler);
 		addDragStopHandler(onDragStopHandler);
 
-		if (structure != null) {
-			setTitle(structure.toString());
+		levelLabel = new Label();
+		levelLabel.getElement().getStyle().setPosition(Position.RELATIVE);
+		levelLabel.getElement().getStyle().setLeft(2, Unit.PX);
+		levelLabel.getElement().getStyle().setBottom(20, Unit.PX);
 
+		if (structure != null) {
 			if (structure instanceof HasLevel) {
-				addClickHandler(onClickHandler);
-				levelLabel = new Label();
 				setLevel(((HasLevel) structure).getLevel());
 			}
-
+			setTitle(structure.toString());
 			setImage(structure.getImageResource());
 		}
-
 		setSize(maxSize, maxSize);
 	}
 
@@ -80,24 +82,16 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 	}
 
 	public void setStructure(Structure structure) {
-		// TODO may conflict with level up/down
 		this.structure = structure;
 		setImage(structure.getImageResource());
 	}
 
-
 	public void setImage(ImageResource image) {
 		this.image = new Image(image);
-		
+
 		getOriginalWidget().clear();
 		getOriginalWidget().add(this.image);
-		
-		if(structure instanceof HasLevel){
-			getOriginalWidget().add(levelLabel);
-			levelLabel.getElement().getStyle().setPosition(Position.RELATIVE);
-			levelLabel.getElement().getStyle().setLeft(2, Unit.PX);
-			levelLabel.getElement().getStyle().setBottom(20, Unit.PX);
-		}
+		getOriginalWidget().add(levelLabel);
 	}
 
 	public int getRow() {
@@ -148,29 +142,17 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 		}
 	};
 
-	private static ClickHandler onClickHandler = new ClickHandler() {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Tile tile = (Tile) event.getSource();
-			HasLevel structure = (HasLevel) tile.getStructure();
-
-			if (Main.getClientFactory().getLevelMode()
-					.equals(Refs.LevelMode.UP)) {
-				structure.setLevel(structure.getLevel() + 1);
-			} else if (Main.getClientFactory().getLevelMode()
-					.equals(Refs.LevelMode.DOWN)) {
-				structure.setLevel(structure.getLevel() - 1);
-			}
-			
-			tile.setLevel(structure.getLevel());
-
-		}
-	};
-
-	protected void setLevel(int level) {
+	public void setLevel(int level) {
 		levelLabel.setText(String.valueOf(level));
-		
 	}
 
+	@Override
+	public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
+		return this.handlerRegistrationWheel = addDomHandler(handler,
+				MouseWheelEvent.getType());
+	}
+
+	public boolean hasWheelHandler() {
+		return (handlerRegistrationWheel != null);
+	}
 }

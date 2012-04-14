@@ -9,21 +9,26 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Resources;
-import de.ganicoga.client.events.ClearEvent;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.events.ConfigLoadEvent;
 import de.ganicoga.client.events.ResetCellEvent;
 import de.ganicoga.client.model.AbstractBaseModel;
 import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.model.DefenseStructure;
+import de.ganicoga.client.model.HasLevel;
 import de.ganicoga.client.model.IsResource;
 import de.ganicoga.client.model.Obstacle;
+import de.ganicoga.client.model.Refs;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.model.UniqueStructure;
 import de.ganicoga.client.model.defense.OilSlick;
@@ -92,6 +97,9 @@ public class BasePresenter implements BaseView.Presenter {
 			for (int j = 0; j < BaseModel.gridCols; j++) {
 
 				Tile t = new Tile(model.getStructure(i, j), i, j);
+				
+				t.addClickHandler(onClickHandler);
+				t.addMouseWheelHandler(onWheelHandler);
 
 				if (t.getStructure() != null) {
 					if (t.getStructure() instanceof HarvesterTiberium) {
@@ -126,7 +134,12 @@ public class BasePresenter implements BaseView.Presenter {
 		if (tile.getStructure() instanceof DefenseStructure) {
 			updateDefenseImage(tile, 0);
 		}
-
+		if (!tile.hasClickHandler()) {
+			tile.addClickHandler(onClickHandler);
+		}
+		if(!tile.hasWheelHandler()){
+			tile.addMouseWheelHandler(onWheelHandler);
+		}
 		// update model
 		model.setStructure(cell.getRow(), cell.getColumn(), tile.getStructure());
 
@@ -243,17 +256,15 @@ public class BasePresenter implements BaseView.Presenter {
 				.addHandler(ConfigLoadEvent.TYPE,
 						new ConfigLoadEvent.Handler() {
 							public void onConfigLoad(ConfigLoadEvent event) {
-								model = new BaseModel(event.getConfig());
+								if (event.getConfig().length() < 1) {
+									model = new BaseModel();
+								} else {
+									model = new BaseModel(event.getConfig());
+								}
+
 								populateView();
 							}
 						});
-		Main.getClientFactory().getEventBus()
-				.addHandler(ClearEvent.TYPE, new ClearEvent.Handler() {
-					public void onClear(ClearEvent event) {
-						model = new BaseModel();
-						populateView();
-					}
-				});
 		// events on reset cell (SelectionPresenter)
 		Main.getClientFactory().getEventBus()
 				.addHandler(ResetCellEvent.TYPE, new ResetCellEvent.Handler() {
@@ -283,6 +294,55 @@ public class BasePresenter implements BaseView.Presenter {
 		container.clear();
 		container.add(view.asWidget());
 	}
+
+	private ClickHandler onClickHandler = new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Tile tile = (Tile) event.getSource();
+
+			if (tile.getStructure() != null
+					&& tile.getStructure() instanceof HasLevel) {
+
+				HasLevel structure = (HasLevel) tile.getStructure();
+
+				if (Main.getClientFactory().getLevelMode()
+						.equals(Refs.LevelMode.UP)) {
+					structure.setLevel(structure.getLevel() + 1);
+				} else if (Main.getClientFactory().getLevelMode()
+						.equals(Refs.LevelMode.DOWN)) {
+					structure.setLevel(structure.getLevel() - 1);
+				}
+
+				tile.setLevel(structure.getLevel());
+				model.update();
+				Main.getClientFactory().getEventBus()
+						.fireEvent(new ConfigChangeEvent(model));
+			}
+		}
+	};
+
+	private MouseWheelHandler onWheelHandler = new MouseWheelHandler() {
+		@Override
+		public void onMouseWheel(MouseWheelEvent event) {
+			Tile tile = (Tile) event.getSource();
+
+			if (tile.getStructure() != null
+					&& tile.getStructure() instanceof HasLevel) {
+				HasLevel structure = (HasLevel) tile.getStructure();
+				if (event.getDeltaY() < 0) {
+					structure.setLevel(structure.getLevel() + 1);
+				} else if (event.getDeltaY() > 0) {
+					structure.setLevel(structure.getLevel() - 1);
+				}
+
+				tile.setLevel(structure.getLevel());
+				model.update();
+				Main.getClientFactory().getEventBus()
+						.fireEvent(new ConfigChangeEvent(model));
+			}
+		}
+	};
 
 	private AcceptFunction acceptFunction = new AcceptFunction() {
 		public boolean acceptDrop(DragAndDropContext context) {
@@ -421,20 +481,20 @@ public class BasePresenter implements BaseView.Presenter {
 	}
 
 	private void updateDefenseImage(Tile tile, int direction) {
-	
+
 		boolean left = leftNeighborIsSame(tile);
 		boolean right = rightNeighborIsSame(tile);
-		
+
 		if (left && direction <= 0) {
 			updateDefenseImage(get(tile.getRow(), tile.getColumn() - 1), -1);
 		}
 		if (right && direction >= 0) {
 			updateDefenseImage(get(tile.getRow(), tile.getColumn() - 1), 1);
 		}
-	
+
 		// current is wall
 		if (tile.getStructure() instanceof Wall) {
-	
+
 			if (direction == 0) {
 				if (left && right) {
 					tile.setImage(Resources.INSTANCE.wallInner());
@@ -456,8 +516,7 @@ public class BasePresenter implements BaseView.Presenter {
 					tile.setImage(Resources.INSTANCE.wallRight());
 				}
 			}
-		}
-		else if (tile.getStructure() instanceof OilSlick){
+		} else if (tile.getStructure() instanceof OilSlick) {
 			if (direction == 0) {
 				if (left && right) {
 					tile.setImage(Resources.INSTANCE.oilInner());
@@ -480,28 +539,30 @@ public class BasePresenter implements BaseView.Presenter {
 				}
 			}
 		}
-	
+
 	}
 
 	private void resetDefenseImage(Tile tile) {
-		
+
 		boolean left = leftNeighborIsSame(tile);
 		boolean right = rightNeighborIsSame(tile);
 		boolean leftleft = false;
 		boolean rightright = false;
-		
-		if(left){
-			leftleft = leftNeighborIsSame(get(tile.getRow(), tile.getColumn()-1));
+
+		if (left) {
+			leftleft = leftNeighborIsSame(get(tile.getRow(),
+					tile.getColumn() - 1));
 		}
-		if(right){
-			rightright = rightNeighborIsSame(get(tile.getRow(), tile.getColumn()+1));
+		if (right) {
+			rightright = rightNeighborIsSame(get(tile.getRow(),
+					tile.getColumn() + 1));
 		}
-		
+
 		// current is wall
 		if (tile.getStructure() instanceof Wall) {
-	
+
 			tile.setImage(Resources.INSTANCE.wall());
-	
+
 			if (left) {
 				if (leftleft) {
 					get(tile.getRow(), tile.getColumn() - 1).setImage(
@@ -521,12 +582,12 @@ public class BasePresenter implements BaseView.Presenter {
 				}
 			}
 		}
-		
+
 		// current is wall
 		if (tile.getStructure() instanceof OilSlick) {
-	
+
 			tile.setImage(Resources.INSTANCE.oil());
-	
+
 			if (left) {
 				if (leftleft) {
 					get(tile.getRow(), tile.getColumn() - 1).setImage(
@@ -551,7 +612,7 @@ public class BasePresenter implements BaseView.Presenter {
 	private boolean rightNeighborIsSame(Tile tile) {
 		Structure structure = model.getStructure(tile.getRow(),
 				tile.getColumn() + 1);
-	
+
 		if (structure != null
 				&& structure.getId() == tile.getStructure().getId()) {
 			return true;
@@ -562,7 +623,7 @@ public class BasePresenter implements BaseView.Presenter {
 	private boolean leftNeighborIsSame(Tile tile) {
 		Structure structure = model.getStructure(tile.getRow(),
 				tile.getColumn() - 1);
-	
+
 		if (structure != null
 				&& structure.getId() == tile.getStructure().getId()) {
 			return true;
