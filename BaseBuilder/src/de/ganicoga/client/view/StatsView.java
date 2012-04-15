@@ -8,6 +8,12 @@ public interface StatsView {
 	public interface Presenter extends BasicPresenter{
 
 		void recalculate();
+
+		void onRememberStatsClick();
+
+		void onAcceptConfigClick();
+		
+		void onRestoreConfigClick();
 		
 	}
 

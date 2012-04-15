@@ -24,6 +24,12 @@ public abstract class ResourceStructure extends Structure implements HasLevel {
 
 	@Override
 	public void setLevel(int level) {
+		if(level > Refs.MAX_LEVEL){
+			level = Refs.MAX_LEVEL;
+		}
+		else if(level < 1){
+			level = 1;
+		}
 		this.level = level;
 	}
 

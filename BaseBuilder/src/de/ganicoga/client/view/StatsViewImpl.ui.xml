@@ -136,6 +136,9 @@
 						</td>
 					</tr>
 				</table>
+				<g:Button ui:field="rememberStats">Remember</g:Button>
+				<g:Button ui:field="acceptConfig" enabled="false">Accept</g:Button>
+				<g:Button ui:field="restoreConfig" enabled="false">Restore</g:Button>
 			</g:HTMLPanel>
 		</g:stack>
 		<g:stack>

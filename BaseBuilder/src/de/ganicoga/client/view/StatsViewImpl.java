@@ -1,8 +1,11 @@
 package de.ganicoga.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,11 +46,47 @@ public class StatsViewImpl extends Composite implements StatsView {
 	Label buildingField;
 	@UiField
 	Label versionInformationField;
+	@UiField
+	Button rememberStats;
+	@UiField
+	Button acceptConfig;
+	@UiField
+	Button restoreConfig;
 	
 	private Presenter presenter;
 
 	public StatsViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		acceptConfig.setVisible(false);
+		restoreConfig.setVisible(false);
+		rememberStats.setTitle("Remember current config and show new stats relative to old config");
+		acceptConfig.setTitle("Accept changes to structures and restore the absolute value view");
+		restoreConfig.setTitle("Restores the configuration before last clicked Remember");
+	}
+	
+	@UiHandler("rememberStats")
+	public void onRememberStatsClick(ClickEvent event){
+		presenter.onRememberStatsClick();
+		acceptConfig.setVisible(true);
+		restoreConfig.setVisible(true);
+		acceptConfig.setEnabled(true);
+		restoreConfig.setEnabled(true);
+	}
+	@UiHandler("acceptConfig")
+	public void onAcceptConfigClick(ClickEvent event){
+		presenter.onAcceptConfigClick();
+		acceptConfig.setVisible(false);
+		restoreConfig.setVisible(false);
+		acceptConfig.setEnabled(false);
+		restoreConfig.setEnabled(false);
+	}
+	@UiHandler("restoreConfig")
+	public void onRestoreConfigClick(ClickEvent event){
+		presenter.onRestoreConfigClick();
+		acceptConfig.setVisible(false);
+		restoreConfig.setVisible(false);
+		acceptConfig.setEnabled(false);
+		restoreConfig.setEnabled(false);
 	}
 
 	@Override
