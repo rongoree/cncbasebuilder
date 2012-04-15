@@ -3,6 +3,8 @@ package de.ganicoga.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+
 import de.ganicoga.client.HuffmanTree.MultiReturnList;
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Util;
@@ -40,7 +42,7 @@ public abstract class AbstractBaseModel {
 	@SuppressWarnings("unchecked")
 	private Structure[][] toGrid(String token) {
 
-		Structure[][] sa = new Structure[gridRows][gridCols];
+		Structure[][] sGrid = new Structure[gridRows][gridCols];
 
 		List<Integer> decodedStructureList = null;
 		List<Integer> decodedLevelList = null;
@@ -56,46 +58,39 @@ public abstract class AbstractBaseModel {
 		}
 
 		List<List<Integer>> rows = new ArrayList<List<Integer>>();
-		List<List<Integer>> rowsL = new ArrayList<List<Integer>>();
-
 		int start = 0;
+		int k = 0;
 		for (int i = 0; i < gridRows; i++) {
-
 			rows.add(decodedStructureList.subList(start, start + gridCols));
-			rowsL.add(decodedLevelList.subList(start, start + gridCols));
-
 			start += gridCols;
 			for (int j = 0; j < gridCols; j++) {
-				sa[i][j] = Main.getClientFactory().getStructure(
+				sGrid[i][j] = Main.getClientFactory().getStructure(
 						rows.get(i).get(j).intValue());
-				if (sa[i][j] instanceof HasLevel) {
-					((HasLevel) sa[i][j]).setLevel(rowsL.get(i).get(j)
-							.intValue());
+				if (sGrid[i][j] instanceof HasLevel && decodedLevelList != null) {
+					((HasLevel) sGrid[i][j]).setLevel(decodedLevelList.get(k));
+					k++;
 				}
 			}
 		}
-		return sa;
+		return sGrid;
 	}
 
 	private String toString(Structure[][] grid) {
-		List<Integer> sl = new ArrayList<Integer>();
-		List<Integer> ll = new ArrayList<Integer>();
+		List<Integer> stuctureList = new ArrayList<Integer>();
+		List<Integer> levelList = new ArrayList<Integer>();
 		for (int i = 0; i < gridRows; i++) {
 			for (int j = 0; j < gridCols; j++) {
 				if (grid[i][j] == null) {
-					sl.add(0);
-					ll.add(0);
+					stuctureList.add(0);
 				} else {
-					sl.add(grid[i][j].getId());
+					stuctureList.add(grid[i][j].getId());
 					if (grid[i][j] instanceof HasLevel) {
-						ll.add(((HasLevel) grid[i][j]).getLevel());
-					} else {
-						ll.add(0);
+						levelList.add(((HasLevel) grid[i][j]).getLevel());
 					}
 				}
 			}
 		}
-		return Util.encode(sl, ll);
+		return Util.encode(levelList, stuctureList);
 	}
 
 	public void setStructure(int row, int col, Structure t) {

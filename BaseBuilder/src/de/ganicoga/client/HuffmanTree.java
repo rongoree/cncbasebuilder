@@ -91,7 +91,7 @@ public class HuffmanTree {
 		return (node.left == null && node.right == null);
 	}
 
-	public String encode(List<Integer> structures, List<Integer> levels) {
+	public String encode(List<Integer> levels, List<Integer> structures) {
 
 		List<Byte> encodedStructures = encodeStructures(structures);
 		List<Byte> encodedLevels = encodeLevels(levels);
@@ -99,22 +99,23 @@ public class HuffmanTree {
 		List<Byte> fullEncoded = new ArrayList<Byte>();
 		fullEncoded.addAll(encodedLevels);
 		fullEncoded.addAll(encodedStructures);
-		
+
 		return bits2String(fullEncoded);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public MultiReturnList decode(String string){
-		
+	public MultiReturnList decode(String string) {
+
 		List<Byte> byteArray = string2Bits(string);
-		
+
 		MultiReturnList m = decodeLevels(byteArray);
-		
-		return new MultiReturnList(m.getFirstList(), decodeStructures((List<Byte>)m.getSecondList()));
-		
+
+		return new MultiReturnList(m.getFirstList(),
+				decodeStructures((List<Byte>) m.getSecondList()));
+
 	}
-	
-	public List<Byte> encodeStructures(List<Integer> structures){
+
+	public List<Byte> encodeStructures(List<Integer> structures) {
 		List<Byte> encodedSource = new ArrayList<Byte>();
 		for (int i = 0; i < structures.size(); i++) {
 			List<Byte> encodedSymbol = this.root.traverse(structures.get(i),
@@ -153,74 +154,115 @@ public class HuffmanTree {
 	}
 
 	public List<Byte> encodeLevels(List<Integer> levels) {
-		List<Byte> out = new ArrayList<Byte>();
 
-		int prefix = 32;
+		int bestPrefix = 0;
+		List<Byte> bestList = null;
 
-		int n = 8;
-		while (n-- > 0){
-			out.add((byte) (((1 << n) & prefix) != 0 ? 1 : 0));
+		int prefix = 1;
+		while ((prefix <<= 1) <= 128) {
+			List<Byte> current = encodeLevelsPrefix(levels, prefix);
+			if (bestList == null) {
+				bestList = current;
+				bestPrefix = prefix;
+			} else if (current.size() < bestList.size()) {
+				bestList = current;
+				bestPrefix = prefix;
+			}
 		}
+/*
+		System.out.println("Best encoding: " + bestList.toString());
+		System.out.println("with length: " + bestList.size());
+		System.out.println("Best Prefix: " + bestPrefix);*/
 
-		// create a new array prepending the length of the levels
+		return bestList;
+	}
+
+	private List<Byte> encodeLevelsPrefix(List<Integer> levels, int prefix) {
+		
+		List<Byte> out = int2Bits(prefix, 8);
+		
+		// new list consisting of the list length followed by the list itself
 		List<Integer> len_levels = new ArrayList<Integer>();
 		len_levels.add(levels.size());
 		for (int l : levels) {
 			len_levels.add(l);
 		}
-		for (int l : len_levels) {
-			int q = (l / prefix);
+
+		for (int i = 0; i < len_levels.size(); i++) {
+
+			int current = len_levels.get(i);
+
+			// determine delta
+			if (i > 1)
+				current -= len_levels.get(i - 1);
+
+			// add signedness
+			if (i > 0) {
+				out.add((byte) (current >= 0 ? 0 : 1));
+				// abs(current)
+				current = Math.abs(current);
+			}
+
+			int q = current / prefix;
 			while (q-- > 0) {
 				out.add((byte) 1);
 			}
 			out.add((byte) 0);
 
-			int i = get_golomb_len(prefix);
-			while (i-- > 0) {
-				out.add((byte) (((1 << i) & l) != 0 ? 1 : 0));
-			}
+			// add number current in binary form using golomb length
+			int bitLength = getGolombLength(prefix);
+			out.addAll(int2Bits(current, bitLength));
 		}
 		return out;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Integer> decodeLevels(String encoded) {
-		return (List<Integer>) decodeLevels(string2Bits(encoded)).getFirstList();
+		return (List<Integer>) decodeLevels(string2Bits(encoded))
+				.getFirstList();
 	}
 
 	public MultiReturnList decodeLevels(List<Byte> bits) {
 		List<Integer> out = new ArrayList<Integer>();
 
-		int prefix = 0, n = 8;
-		while (n-- > 0) {
-			prefix += bits.remove(0) != 0 ? (1 << n) : 0;
-		}
+		int prefix = bits2Int(bits, 8);
+
+		//System.out.println("Decoded Prefix: " + prefix);
 
 		int level_len = -1;
+		int previous_level = 0;
 
 		while (bits.size() > 0 && (level_len == -1 || out.size() < level_len)) {
+
+			// determine signedness
+			int sign = 1;
+
+			if (level_len != -1) {
+				sign = bits.remove(0) == 1 ? -1 : 1;
+			}
+
 			int q = 0;
 			while (bits.remove(0) == 1) {
 				q++;
 			}
-			int level = 0;
+			
+			int bitLength = getGolombLength(prefix);
+			
+			int level = bits2Int(bits, bitLength);
 
-			int i = get_golomb_len(prefix);
-			while (i-- > 0) {
-				level += bits.remove(0) != 0 ? 1 << i : 0;
-			}
-
+			// get length of levels
 			if (level_len == -1) {
 				level_len = level + q * prefix;
 			} else {
-				out.add(level + q * prefix);
+				previous_level += (level + q * prefix) * sign;
+				out.add(previous_level);
 			}
 		}
-		
+
 		return new MultiReturnList(out, bits);
 	}
 
-	private int get_golomb_len(int prefix) {
+	private int getGolombLength(int prefix) {
 		return (int) (Math.log(prefix) / Math.log(2));
 	}
 
@@ -263,6 +305,22 @@ public class HuffmanTree {
 		}
 
 		return out;
+	}
+
+	private int bits2Int(List<Byte> bits, int bitLength) {
+		int sum = 0;
+		for (int i = bitLength - 1; i >= 0; i--) {
+			sum += (bits.remove(0) != 0 ? (1 << i) : 0);
+		}
+		return sum;
+	}
+
+	private List<Byte> int2Bits(int number, int bitLength) {
+		List<Byte> bits = new ArrayList<Byte>();
+		for (int i = bitLength - 1; i >= 0; i--) {
+			bits.add((byte) (((1 << i) & number) != 0 ? 1 : 0));
+		}
+		return bits;
 	}
 
 	private class Node {
@@ -314,14 +372,17 @@ public class HuffmanTree {
 	public class MultiReturnList {
 		private List<? extends Number> firstList;
 		private List<? extends Number> secondList;
+
 		public MultiReturnList(List<? extends Number> firstList,
 				List<? extends Number> secondList) {
 			this.firstList = firstList;
 			this.secondList = secondList;
 		}
+
 		public List<? extends Number> getFirstList() {
 			return firstList;
 		}
+
 		public List<? extends Number> getSecondList() {
 			return secondList;
 		}

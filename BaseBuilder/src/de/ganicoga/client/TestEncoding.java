@@ -1,9 +1,7 @@
 package de.ganicoga.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TestEncoding {
 
@@ -11,7 +9,7 @@ public class TestEncoding {
 
 		HuffmanTree tree = new HuffmanTree();
 
-		String[] input = new String[]{
+		String[] input = new String[] {
 				"60G0B0C00000040500F05900900007040440H57A08800029A75700E00475940000000000",
 				"60B000000040440500C09009500250440000778900010A757A0000072700000000000000",
 				"0000H0G0600200A94000007570B04007570000948A94F05948770000040220C0000D0E00",
@@ -51,9 +49,8 @@ public class TestEncoding {
 				"60G000000000504000F40094940009489800I984A757005777757ACA755A90000E090D00",
 				"60G0B0000000004000F49008950048040770907A9AA00J57575749007575840C0EA9D000",
 				"60G0B0000000409000F490844000A7578900J4757A79009957A550C4000757000E0D9A00",
-				"0000B0G06004A5004900977904F04055A89009877704J040A5590000097775C0000DAE00",
-				};
-		
+				"0000B0G06004A5004900977904F04055A89009877704J040A5590000097775C0000DAE00", };
+
 		List<Integer> levelList = new ArrayList<Integer>();
 		levelList.add(16);
 		levelList.add(16);
@@ -70,38 +67,33 @@ public class TestEncoding {
 		levelList.add(13);
 		levelList.add(14);
 		levelList.add(15);
+
 		/*
-		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-		
-		for (int i = 0; i < input.length; i++) {
-			for (int j = 0; j < input[i].length(); j++) {
-				
-                if (!map.containsKey(input[i].charAt(j)))
-                {
-                	map.put(input[i].charAt(j), 0);
-                }
-                int value = map.get(input[i].charAt(j)) + 1;
-                map.put(input[i].charAt(j), value);
-			}
-		}
-		
-		for(Map.Entry<Character, Integer> entry : map.entrySet()){
-			System.out.println(entry.getKey() + " " + (int)Math.round(entry.getValue().doubleValue() / input.length));
-		}
-		
-		System.out.println("Bases: " + input.length);
-		
+		 * HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+		 * 
+		 * for (int i = 0; i < input.length; i++) { for (int j = 0; j <
+		 * input[i].length(); j++) {
+		 * 
+		 * if (!map.containsKey(input[i].charAt(j))) {
+		 * map.put(input[i].charAt(j), 0); } int value =
+		 * map.get(input[i].charAt(j)) + 1; map.put(input[i].charAt(j), value);
+		 * } }
+		 * 
+		 * for(Map.Entry<Character, Integer> entry : map.entrySet()){
+		 * System.out.println(entry.getKey() + " " +
+		 * (int)Math.round(entry.getValue().doubleValue() / input.length)); }
+		 * 
+		 * System.out.println("Bases: " + input.length);
+		 * 
+		 * System.out.println();
+		 * 
+		 * String s = tree.encode(Util.oldString2IntList(input[0]));
+		 * System.out.println(s); System.out.println(s.length());
+		 */
 		System.out.println();
-		
-		String s = tree.encode(Util.oldString2IntList(input[0]));
-		System.out.println(s);
-		System.out.println(s.length());
-		*/
-		System.out.println();
-		
+		System.out.println(levelList.toString());
 		List<Byte> l = tree.encodeLevels(levelList);
-		System.out.println(tree.decodeLevels(l).getFirstList().equals(levelList));
-		
+		System.out.println(tree.decodeLevels(l).getFirstList().toString());
 
 	}
 }
