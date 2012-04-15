@@ -10,6 +10,7 @@ import de.ganicoga.client.model.resource.PowerPlant;
 import de.ganicoga.client.model.resource.Refinery;
 import de.ganicoga.client.model.resource.Silo;
 import de.ganicoga.client.model.resource.Tiberium;
+import de.ganicoga.client.model.unique.ConstructionYard;
 
 public class BaseModel extends AbstractBaseModel {
 
@@ -17,7 +18,7 @@ public class BaseModel extends AbstractBaseModel {
 			continuousCredits;
 	private double packageTiberium, packageCrystal, packagePower,
 			packageCredits;
-	private int buildings;
+	private int buildings, constructionSlots;
 
 	public BaseModel(String token) {
 		super(token);
@@ -41,6 +42,7 @@ public class BaseModel extends AbstractBaseModel {
 		packageCredits = 0;
 
 		buildings = 0;
+		constructionSlots = 0;
 
 		for (int i = 0; i < gridRows; i++) {
 			for (int j = 0; j < gridCols; j++) {
@@ -130,6 +132,9 @@ public class BaseModel extends AbstractBaseModel {
 				}
 			}
 		}
+		else if(s instanceof ConstructionYard){
+			constructionSlots = Refs.getConstructionSlots(((HasLevel)s).getLevel());
+		}
 	}
 
 	public int getContinuousTiberium() {
@@ -166,6 +171,10 @@ public class BaseModel extends AbstractBaseModel {
 
 	public int getBuildings() {
 		return buildings;
+	}
+	
+	public int getConstructionSlots() {
+		return constructionSlots;
 	}
 
 }

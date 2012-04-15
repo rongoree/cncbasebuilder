@@ -1,18 +1,11 @@
 package de.ganicoga.client.view;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-
-import de.ganicoga.client.model.Refs;
 
 public class StatsViewImpl extends Composite implements StatsView {
 
@@ -49,60 +42,17 @@ public class StatsViewImpl extends Composite implements StatsView {
 	@UiField
 	Label buildingField;
 	@UiField
-	IntegerBox integerBox;
-	@UiField
 	Label versionInformationField;
 	
 	private Presenter presenter;
 
 	public StatsViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		integerBox.setMaxLength(2);
 	}
 
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
-	}
-/*
-	@UiHandler("integerBox")
-	void onIntegerBoxKeyUp(KeyUpEvent event) {
-		if (integerBox.getValue() != null && integerBox.getValue() != 0) {
-			
-			if (integerBox.getValue() > Refs.MAX_LEVEL) {
-				integerBox.setValue(Refs.MAX_LEVEL);
-			}
-			
-			presenter.recalculate(integerBox.getValue());
-		}
-
-	}
-
-	@UiHandler("integerBox")
-	void onIntegerBoxMouseWheel(MouseWheelEvent event) {
-		int value = integerBox.getValue() + (event.getDeltaY() > 0 ? -1 : 1);
-		if (value < 1) {
-			value = 1;
-		}
-		if (value > Refs.MAX_LEVEL) {
-			value = Refs.MAX_LEVEL;
-		}
-		integerBox.setValue(value);
-		presenter.recalculate(value);
-
-	}
-
-	@UiHandler("integerBox")
-	void onIntegerBoxBlur(BlurEvent event) {
-		if (integerBox.getValue() == null || integerBox.getValue() == 0) {
-			integerBox.setValue(1);
-			presenter.recalculate(1);
-		}
-	}
-*/
-	@Override
-	public int getLevel() {
-		return integerBox.getValue();
 	}
 
 	@Override

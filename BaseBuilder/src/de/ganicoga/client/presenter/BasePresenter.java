@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.user.client.History;
@@ -26,9 +24,8 @@ import de.ganicoga.client.model.AbstractBaseModel;
 import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.model.DefenseStructure;
 import de.ganicoga.client.model.HasLevel;
-import de.ganicoga.client.model.IsResource;
 import de.ganicoga.client.model.IsObstacle;
-import de.ganicoga.client.model.Refs;
+import de.ganicoga.client.model.IsResource;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.model.UniqueStructure;
 import de.ganicoga.client.model.defense.OilSlick;
@@ -97,8 +94,7 @@ public class BasePresenter implements BaseView.Presenter {
 			for (int j = 0; j < BaseModel.gridCols; j++) {
 
 				Tile t = new Tile(model.getStructure(i, j), i, j);
-				
-				t.addClickHandler(onClickHandler);
+
 				t.addMouseWheelHandler(onWheelHandler);
 
 				if (t.getStructure() != null) {
@@ -133,9 +129,6 @@ public class BasePresenter implements BaseView.Presenter {
 
 		if (tile.getStructure() instanceof DefenseStructure) {
 			updateDefenseImage(tile, 0);
-		}
-		if (!tile.hasClickHandler()) {
-			tile.addClickHandler(onClickHandler);
 		}
 		if(!tile.hasWheelHandler()){
 			tile.addMouseWheelHandler(onWheelHandler);
@@ -294,33 +287,6 @@ public class BasePresenter implements BaseView.Presenter {
 		container.clear();
 		container.add(view.asWidget());
 	}
-
-	private ClickHandler onClickHandler = new ClickHandler() {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Tile tile = (Tile) event.getSource();
-
-			if (tile.getStructure() != null
-					&& tile.getStructure() instanceof HasLevel) {
-
-				HasLevel structure = (HasLevel) tile.getStructure();
-
-				if (Main.getClientFactory().getLevelMode()
-						.equals(Refs.LevelMode.UP)) {
-					structure.setLevel(structure.getLevel() + 1);
-				} else if (Main.getClientFactory().getLevelMode()
-						.equals(Refs.LevelMode.DOWN)) {
-					structure.setLevel(structure.getLevel() - 1);
-				}
-
-				tile.setLevel(structure.getLevel());
-				model.update();
-				Main.getClientFactory().getEventBus()
-						.fireEvent(new ConfigChangeEvent(model));
-			}
-		}
-	};
 
 	private MouseWheelHandler onWheelHandler = new MouseWheelHandler() {
 		@Override

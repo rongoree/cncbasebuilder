@@ -15,8 +15,6 @@ public interface StatsView {
 
 	Widget asWidget();
 
-	int getLevel();
-
 	void setConstructionSlots(String slots);
 
 	void setContinuousTiberium(String tiberium);

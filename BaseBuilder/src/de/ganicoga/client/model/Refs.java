@@ -179,8 +179,24 @@ public class Refs {
 					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
 		}
 	}
-
-	public enum LevelMode {
-		UP, DOWN, NONE;
+	
+	public static final int getConstructionSlots(int level){
+		
+		int slots = 0;
+		for (int i = 1; i <= level && slots <40; i++) {
+			if(i <= 3){
+				slots += 4;
+			}
+			else if(i <= 4){
+				slots += 3;
+			}
+			else if(i <= 8){
+				slots+= 2;
+			}
+			else{
+				slots+= 1;
+			}
+		}
+		return slots;
 	}
 }

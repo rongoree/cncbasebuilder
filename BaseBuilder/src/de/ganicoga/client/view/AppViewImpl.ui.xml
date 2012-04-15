@@ -25,12 +25,6 @@
 						<td>
 							<g:Button text="Clear All" ui:field="clearButton" />
 						</td>
-						<td>
-							<g:ToggleButton text="lvl up mode" ui:field="lvlUpButton"></g:ToggleButton>
-						</td>
-						<td>
-							<g:ToggleButton text="lvl down mode" ui:field="lvlDownButton"></g:ToggleButton>
-						</td>
 					</tr>
 				</table>
 			</g:HTMLPanel>

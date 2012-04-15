@@ -2,7 +2,6 @@ package de.ganicoga.client;
 
 import com.google.web.bindery.event.shared.EventBus;
 
-import de.ganicoga.client.model.Refs.LevelMode;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.view.BaseView;
 import de.ganicoga.client.view.SelectionView;
@@ -22,9 +21,4 @@ public interface ClientFactory {
 	void setInsertMode(boolean value);
 
 	StatsView getStatsView();
-
-	LevelMode getLevelMode();
-	
-	void setLevelMode(LevelMode levelMode); 
-
 }

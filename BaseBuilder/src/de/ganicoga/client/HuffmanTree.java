@@ -155,7 +155,7 @@ public class HuffmanTree {
 
 	public List<Byte> encodeLevels(List<Integer> levels) {
 
-		int bestPrefix = 0;
+		//int bestPrefix = 0;
 		List<Byte> bestList = null;
 
 		int prefix = 1;
@@ -163,10 +163,10 @@ public class HuffmanTree {
 			List<Byte> current = encodeLevelsPrefix(levels, prefix);
 			if (bestList == null) {
 				bestList = current;
-				bestPrefix = prefix;
+				//bestPrefix = prefix;
 			} else if (current.size() < bestList.size()) {
 				bestList = current;
-				bestPrefix = prefix;
+				//bestPrefix = prefix;
 			}
 		}
 /*

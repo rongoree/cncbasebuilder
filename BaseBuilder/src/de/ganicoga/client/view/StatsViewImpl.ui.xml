@@ -13,14 +13,6 @@
 				<table>
 					<tr>
 						<td>
-							<b>Avg. Level:</b>
-						</td>
-						<td>
-							<g:IntegerBox value="10" visibleLength="2" ui:field="integerBox" />
-						</td>
-					</tr>
-					<tr>
-						<td>
 							<b>Tiberium</b>
 						</td>
 					</tr>

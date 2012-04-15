@@ -3,7 +3,6 @@ package de.ganicoga.client;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
-import de.ganicoga.client.model.Refs.LevelMode;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.model.resource.Accumulator;
 import de.ganicoga.client.model.resource.Crystal;
@@ -39,8 +38,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static final StatsView stv = new StatsViewImpl();
 
 	private boolean insertMode;
-
-	private LevelMode levelMode = LevelMode.NONE;
 
 	@Override
 	public EventBus getEventBus() {
@@ -114,16 +111,5 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public StatsView getStatsView() {
 		return stv;
-	}
-
-	@Override
-	public LevelMode getLevelMode() {
-		return levelMode;
-	}
-
-	@Override
-	public void setLevelMode(LevelMode levelMode) {
-		this.levelMode  = levelMode;
-		
 	}
 }

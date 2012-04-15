@@ -58,6 +58,7 @@ public class StatsPresenter implements StatsView.Presenter {
 		int ppower = baseModel.getPackagePower();
 
 		int buildings = baseModel.getBuildings();
+		int constructionSlots = baseModel.getConstructionSlots();
 
 		view.setContinuousTiberium(String
 				.valueOf(ctiberium));
@@ -86,6 +87,6 @@ public class StatsPresenter implements StatsView.Presenter {
 				+ ppower));
 
 		view.setConstructionSlots(String
-				.valueOf(buildings - 1));	
+				.valueOf(buildings - 1) + "/" + String.valueOf(constructionSlots));	
 	}
 }
