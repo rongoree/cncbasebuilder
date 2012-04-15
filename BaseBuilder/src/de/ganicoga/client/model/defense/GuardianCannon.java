@@ -1,10 +1,9 @@
 package de.ganicoga.client.model.defense;
 
 import de.ganicoga.client.model.DefenseStructure;
-import de.ganicoga.client.model.Obstacle;
 import de.ganicoga.client.model.StructureDef;
 
-public class GuardianCannon extends DefenseStructure implements Obstacle {
+public class GuardianCannon extends DefenseStructure {
 
 	@Override
 	protected StructureDef initStructure() {

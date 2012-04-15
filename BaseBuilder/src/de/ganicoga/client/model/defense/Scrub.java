@@ -1,10 +1,10 @@
 package de.ganicoga.client.model.defense;
 
 import de.ganicoga.client.model.DefenseStructure;
-import de.ganicoga.client.model.Obstacle;
+import de.ganicoga.client.model.IsObstacle;
 import de.ganicoga.client.model.StructureDef;
 
-public class Scrub extends DefenseStructure implements Obstacle {
+public class Scrub extends DefenseStructure implements IsObstacle {
 
 	@Override
 	protected StructureDef initStructure() {

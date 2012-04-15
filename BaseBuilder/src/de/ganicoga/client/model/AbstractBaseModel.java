@@ -3,8 +3,6 @@ package de.ganicoga.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-
 import de.ganicoga.client.HuffmanTree.MultiReturnList;
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Util;

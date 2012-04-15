@@ -53,7 +53,7 @@ public class DefenseModel extends AbstractBaseModel {
 
 	@Override
 	protected void collect(Structure s, List<Structure> neighbors) {
-		if (s == null || s instanceof Obstacle) {
+		if (s == null || s instanceof IsObstacle) {
 			return;
 		}
 		

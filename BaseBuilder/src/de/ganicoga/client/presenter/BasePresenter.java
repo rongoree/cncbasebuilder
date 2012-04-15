@@ -27,7 +27,7 @@ import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.model.DefenseStructure;
 import de.ganicoga.client.model.HasLevel;
 import de.ganicoga.client.model.IsResource;
-import de.ganicoga.client.model.Obstacle;
+import de.ganicoga.client.model.IsObstacle;
 import de.ganicoga.client.model.Refs;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.model.UniqueStructure;
@@ -397,8 +397,8 @@ public class BasePresenter implements BaseView.Presenter {
 			}
 
 			// only Obstacles can be swapped with obstacles
-			if (dropStructure instanceof Obstacle) {
-				if (!(structure instanceof Obstacle)) {
+			if (dropStructure instanceof IsObstacle) {
+				if (!(structure instanceof IsObstacle)) {
 					return false;
 				}
 				return true;
@@ -408,7 +408,7 @@ public class BasePresenter implements BaseView.Presenter {
 			// structures
 			if (structure instanceof Harvester
 					|| structure instanceof IsResource
-					|| structure instanceof Obstacle) {
+					|| structure instanceof IsObstacle) {
 				return false;
 			}
 			return true;
