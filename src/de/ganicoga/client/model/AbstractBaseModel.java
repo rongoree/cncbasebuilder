@@ -44,15 +44,20 @@ public abstract class AbstractBaseModel {
 
 		List<Integer> decodedStructureList = null;
 		List<Integer> decodedLevelList = null;
-		// old encoding
-		if (token.length() == gridSize) {
-			decodedStructureList = Util.oldString2IntList(token);
-		}
+
+
 		// new encoding
-		else {
+		if(token.contains(":")) {
 			MultiReturnList m = Util.decode(token);
 			decodedLevelList = (List<Integer>) m.getFirstList();
 			decodedStructureList = (List<Integer>) m.getSecondList();
+		}
+		// old encoding
+		else if (token.length() == gridSize) {
+			decodedStructureList = Util.oldString2IntList(token);
+		}
+		else{
+			return sGrid;
 		}
 
 		List<List<Integer>> rows = new ArrayList<List<Integer>>();

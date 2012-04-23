@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.ganicoga.client.model.BaseModel;
 import de.ganicoga.client.widget.ExtendedTextBox;
 
 public class AppViewImpl extends Composite implements AppView {
@@ -122,9 +121,6 @@ public class AppViewImpl extends Composite implements AppView {
 	private String validateConfig(String s) {
 		if (s.startsWith("#")) {
 			s = s.substring(1);
-		}
-		if (s.length() != BaseModel.gridSize) {
-			return "";
 		}
 		return s;
 	}

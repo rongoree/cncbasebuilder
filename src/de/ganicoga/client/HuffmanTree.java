@@ -100,13 +100,13 @@ public class HuffmanTree {
 		fullEncoded.addAll(encodedLevels);
 		fullEncoded.addAll(encodedStructures);
 
-		return bits2String(fullEncoded);
+		return "1:"+bits2String(fullEncoded);
 	}
 
 	@SuppressWarnings("unchecked")
 	public MultiReturnList decode(String string) {
 
-		List<Byte> byteArray = string2Bits(string);
+		List<Byte> byteArray = string2Bits(string.split(":")[1]);
 
 		MultiReturnList m = decodeLevels(byteArray);
 
