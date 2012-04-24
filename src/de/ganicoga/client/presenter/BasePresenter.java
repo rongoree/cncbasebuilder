@@ -9,11 +9,16 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Resources;
@@ -48,6 +53,7 @@ import de.ganicoga.client.model.unique.SkySupport;
 import de.ganicoga.client.view.BaseView;
 import de.ganicoga.client.widget.GridCell;
 import de.ganicoga.client.widget.Tile;
+import de.ganicoga.client.widget.TilePopup;
 
 public class BasePresenter implements BaseView.Presenter {
 
@@ -55,10 +61,18 @@ public class BasePresenter implements BaseView.Presenter {
 	private AbstractBaseModel model;
 	private FlexTable flex;
 	private DropEventHandler dropHandler;
+	private DoubleClickHandler onDoubleClickHandler;
+
+	private MouseWheelHandler onWheelHandler;
+	protected TilePopup tilePopup;
 
 	public BasePresenter(BaseView view) {
 		this.view = view;
 		view.setPresenter(this);
+
+		if (tilePopup == null) {
+			tilePopup = new TilePopup();
+		}
 
 		initHandlers();
 
@@ -97,6 +111,8 @@ public class BasePresenter implements BaseView.Presenter {
 
 				t.addMouseWheelHandler(onWheelHandler);
 
+				t.addDoubleClickHandler(onDoubleClickHandler);
+
 				if (t.getStructure() != null) {
 					if (t.getStructure() instanceof HarvesterTiberium) {
 						Tiberium.INSTANCE.decrementCount();
@@ -130,8 +146,11 @@ public class BasePresenter implements BaseView.Presenter {
 		if (tile.getStructure() instanceof DefenseStructure) {
 			updateDefenseImage(tile, 0);
 		}
-		if(!tile.hasWheelHandler()){
+		if (!tile.hasWheelHandler()) {
 			tile.addMouseWheelHandler(onWheelHandler);
+		}
+		if (!tile.hasClickHandler()) {
+			tile.addDoubleClickHandler(onDoubleClickHandler);
 		}
 		// update model
 		model.setStructure(cell.getRow(), cell.getColumn(), tile.getStructure());
@@ -243,6 +262,49 @@ public class BasePresenter implements BaseView.Presenter {
 			}
 		};
 
+		onWheelHandler = new MouseWheelHandler() {
+			@Override
+			public void onMouseWheel(MouseWheelEvent event) {
+				Tile tile = (Tile) event.getSource();
+
+				if (tile.getStructure() != null
+						&& tile.getStructure() instanceof HasLevel) {
+					HasLevel structure = (HasLevel) tile.getStructure();
+					if (event.getDeltaY() < 0) {
+						structure.setLevel(structure.getLevel() + 1);
+					} else if (event.getDeltaY() > 0) {
+						structure.setLevel(structure.getLevel() - 1);
+					}
+
+					tile.setLevel(structure.getLevel());
+					model.update();
+					Main.getClientFactory().getEventBus()
+							.fireEvent(new ConfigChangeEvent(model));
+				}
+			}
+		};
+
+		tilePopup.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+
+				if (tilePopup.updateLevel()) {
+					model.update();
+					Main.getClientFactory().getEventBus()
+							.fireEvent(new ConfigChangeEvent(model));
+				}
+			}
+		});
+
+		onDoubleClickHandler = new DoubleClickHandler() {
+
+			@Override
+			public void onDoubleClick(DoubleClickEvent event) {
+				final Tile tile = (Tile) event.getSource();
+				tilePopup.show(tile);
+			}
+		};
 		// events on load button clicked
 		Main.getClientFactory()
 				.getEventBus()
@@ -288,28 +350,6 @@ public class BasePresenter implements BaseView.Presenter {
 		container.add(view.asWidget());
 	}
 
-	private MouseWheelHandler onWheelHandler = new MouseWheelHandler() {
-		@Override
-		public void onMouseWheel(MouseWheelEvent event) {
-			Tile tile = (Tile) event.getSource();
-
-			if (tile.getStructure() != null
-					&& tile.getStructure() instanceof HasLevel) {
-				HasLevel structure = (HasLevel) tile.getStructure();
-				if (event.getDeltaY() < 0) {
-					structure.setLevel(structure.getLevel() + 1);
-				} else if (event.getDeltaY() > 0) {
-					structure.setLevel(structure.getLevel() - 1);
-				}
-
-				tile.setLevel(structure.getLevel());
-				model.update();
-				Main.getClientFactory().getEventBus()
-						.fireEvent(new ConfigChangeEvent(model));
-			}
-		}
-	};
-
 	private AcceptFunction acceptFunction = new AcceptFunction() {
 		public boolean acceptDrop(DragAndDropContext context) {
 
@@ -324,7 +364,7 @@ public class BasePresenter implements BaseView.Presenter {
 			// TODO fix for swap of structure and unique
 			if (structure instanceof UniqueStructure) {
 				if (isInvalidPlace(dropTile.getRow(), dropTile.getColumn(),
-						(UniqueStructure) structure)) {
+						structure)) {
 					return false;
 				}
 			}
@@ -333,6 +373,12 @@ public class BasePresenter implements BaseView.Presenter {
 			if (dropStructure == null) {
 				if (structure instanceof Harvester) {
 					return false;
+				}
+				if (structure instanceof IsResource) {
+					if (isInvalidPlace(dropTile.getRow(), dropTile.getColumn(),
+							structure)) {
+						return false;
+					}
 				}
 				return true;
 			}
@@ -382,10 +428,10 @@ public class BasePresenter implements BaseView.Presenter {
 		}
 	};
 
-	private boolean isInvalidPlace(int row, int col, UniqueStructure placeTile) {
+	private boolean isInvalidPlace(int row, int col, Structure placeTile) {
 		Structure target = model.getStructure(row, col);
 
-		// in move mode unique strucutres are allowed to be exchanged
+		// in move mode unique structures are allowed to be exchanged
 		if (!Main.getClientFactory().isInsertMode() && target != null
 				&& target instanceof UniqueStructure) {
 			return false;
@@ -418,12 +464,18 @@ public class BasePresenter implements BaseView.Presenter {
 			list.add(model.getStructure(row, col + 1));
 		}
 
-		for (Structure structure : list) {
-			// if there is a unique structure around and the unique is not the
-			// tile itself, set position invalid
-			if (structure != null && (structure instanceof UniqueStructure)
-					&& !placeTile.equals((UniqueStructure) structure)) {
-				return true;
+		// resource fields not allowed in the border columns and rows
+		if (list.size() < 8 && placeTile instanceof IsResource) {
+			return true;
+		} else if (placeTile instanceof UniqueStructure) {
+			for (Structure structure : list) {
+				// if there is a unique structure around and the unique is not
+				// the
+				// tile itself, set position invalid
+				if (structure != null && (structure instanceof UniqueStructure)
+						&& !placeTile.equals((UniqueStructure) structure)) {
+					return true;
+				}
 			}
 		}
 

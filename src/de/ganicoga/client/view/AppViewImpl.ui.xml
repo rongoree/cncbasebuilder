@@ -40,7 +40,7 @@
 					<g:ScrollPanel ui:field="baseContent">
 					</g:ScrollPanel>
 				</g:center>
-				<g:east size="16">
+				<g:east size="17">
 					<g:SimpleLayoutPanel ui:field="statsContent"></g:SimpleLayoutPanel>
 				</g:east>
 			</g:DockLayoutPanel>

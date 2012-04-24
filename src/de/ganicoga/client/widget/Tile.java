@@ -10,9 +10,9 @@ import gwtquery.plugins.draggable.client.gwt.DraggableWidget;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
 import com.google.gwt.event.dom.client.HasMouseWheelHandlers;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
@@ -27,7 +27,7 @@ import de.ganicoga.client.model.HasLevel;
 import de.ganicoga.client.model.Structure;
 
 public class Tile extends DraggableWidget<FlowPanel> implements
-		HasClickHandlers, HasMouseWheelHandlers {
+		HasDoubleClickHandlers, HasMouseWheelHandlers {
 
 	private Structure structure;
 	private Image image;
@@ -111,8 +111,8 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 	}
 
 	@Override
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		this.handlerRegistration = addDomHandler(handler, ClickEvent.getType());
+	public HandlerRegistration addDoubleClickHandler(DoubleClickHandler doubleClickHandler) {
+		this.handlerRegistration = addDomHandler(doubleClickHandler, DoubleClickEvent.getType());
 		return handlerRegistration;
 	}
 

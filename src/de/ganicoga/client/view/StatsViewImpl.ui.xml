@@ -4,7 +4,8 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:StackLayoutPanel width="100%" height="647px" unit="EM">
+	<g:StackLayoutPanel width="100%" height="647px"
+		unit="EM">
 		<g:stack>
 			<g:header size='2.5'>
 				Stats
@@ -69,7 +70,7 @@
 							<g:Label ui:field="packageCrystal">---</g:Label>
 						</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>
 							<b>Power</b>
 						</td>
@@ -98,7 +99,7 @@
 							<g:Label ui:field="packagePower">---</g:Label>
 						</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>
 							<b>Credits</b>
 						</td>
@@ -145,25 +146,57 @@
 			<g:header size='2.5'>
 				Instructions
 			</g:header>
-			<g:HTMLPanel>
-				<p> Drag and Drop a structure from the panel
-					at the bottom to the
-					grid.
-				</p>
-				<p> Use Drag and Drop to move a structure. </p>
-				<p> Remove a structure by dropping it back in the panel at the
-					bottom.
-				</p>
-				<p> To share your config either copy the current URL or the
-					config
-					string from the textbox.</p>
-				<p> You can bookmark your config to easily load it later again. </p>
-				<g:Label ui:field="versionInformationField" />
-				<p>
-					<a
-						href="http://forum.alliances.commandandconquer.com/showthread.php?tid=3053">Feedback</a>
-				</p>
-			</g:HTMLPanel>
+			<g:ScrollPanel>
+				<g:HTMLPanel>
+					<p>
+						<b>Place</b>
+						<br />
+						Drag and Drop a structure from the panel
+						at the bottom to the
+						grid.
+					</p>
+					<p>
+						<b>Move</b>
+						<br />
+						Use Drag and Drop to move a structure.
+					</p>
+					<p>
+						<b>Delete</b>
+						<br />
+						Remove a structure by dropping it back in bottom panel.
+					</p>
+					<p>
+						<b>Upgrade</b>
+						<br />
+						Upgrade a structure by hovering above the structure and using the Mouse Wheel.
+					</p>
+					<p>
+						<b>Optimize</b>
+						<br />
+						"Remember" the current config and do changes
+						relative to that until
+						you "Accept" or "Restore".
+					</p>
+					<p>
+						<b>Share</b>
+						<br />
+						To share your config either copy the current URL or the
+						config
+						from
+						the textbox.
+					</p>
+					<p>
+						<b>Bookmark</b>
+						<br />
+						You can bookmark your config to easily load it later.
+					</p>
+					<g:Label ui:field="versionInformationField" />
+					<p>
+						<a
+							href="http://forum.alliances.commandandconquer.com/showthread.php?tid=3053">Feedback</a>
+					</p>
+				</g:HTMLPanel>
+			</g:ScrollPanel>
 		</g:stack>
 	</g:StackLayoutPanel>
 </ui:UiBinder> 
