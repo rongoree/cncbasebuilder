@@ -223,7 +223,7 @@ public class BasePresenter implements BaseView.Presenter {
 				// new instance if first time placement
 				if (dragSource.getRow() < 0 || dragSource.getColumn() < 0) {
 					structure.decrementCount();
-					dragSource = new Tile(structure, dragSource.getRow(),
+					dragSource = new Tile(Main.getClientFactory().getStructure(structure.getId()), dragSource.getRow(),
 							dragSource.getColumn());
 				}
 
