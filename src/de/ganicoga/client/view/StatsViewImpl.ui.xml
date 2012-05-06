@@ -4,12 +4,13 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:StackLayoutPanel width="100%" height="647px"
+	<g:StackLayoutPanel width="100%" height="100%"
 		unit="EM">
 		<g:stack>
 			<g:header size='2.5'>
 				Stats
 			</g:header>
+			<g:ScrollPanel>
 			<g:HTMLPanel>
 				<table>
 					<tr>
@@ -141,6 +142,7 @@
 				<g:Button ui:field="acceptConfig" enabled="false">Accept</g:Button>
 				<g:Button ui:field="restoreConfig" enabled="false">Restore</g:Button>
 			</g:HTMLPanel>
+			</g:ScrollPanel>
 		</g:stack>
 		<g:stack>
 			<g:header size='2.5'>
