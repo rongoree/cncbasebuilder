@@ -11,8 +11,6 @@ public interface Resources extends ClientBundle {
 
 	public interface Style extends CssResource {
 
-		String innerStyle();
-
 		String rootStyle();
 
 		String selectionBackground();
@@ -26,6 +24,8 @@ public interface Resources extends ClientBundle {
 		String selectedTile();
 		
 		String topPanel();
+		
+		String statsStyle();
 		
 		String whiteText();
 

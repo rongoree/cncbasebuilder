@@ -10,7 +10,7 @@
 				<table>
 					<tr>
 						<td>
-							<g:Label styleName="{INSTANCE.style.whiteText}" text="Config:"></g:Label>
+							<g:Label styleName="{INSTANCE.style.whiteText}" text="Config:" />
 						</td>
 						<td>
 							<ganicoga:ExtendedTextBox ui:field="configBox"
@@ -30,20 +30,14 @@
 			</g:HTMLPanel>
 		</g:north>
 		<g:south size="7.4">
-			<g:ScrollPanel ui:field="selectionContent">
-			</g:ScrollPanel>
+			<g:ScrollPanel ui:field="selectionContent" />
 		</g:south>
 		<g:center>
-			<g:DockLayoutPanel unit="PCT"
-				styleName="{INSTANCE.style.innerStyle}">
-				<g:center>
-					<g:ScrollPanel ui:field="baseContent">
-					</g:ScrollPanel>
-				</g:center>
-				<g:east size="17">
-					<g:SimpleLayoutPanel ui:field="statsContent"></g:SimpleLayoutPanel>
-				</g:east>
-			</g:DockLayoutPanel>
+			<g:ScrollPanel ui:field="baseContent" />
 		</g:center>
+		<g:east size="14">
+			<g:SimpleLayoutPanel ui:field="statsContent"
+				styleName="{INSTANCE.style.statsStyle}" />
+		</g:east>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

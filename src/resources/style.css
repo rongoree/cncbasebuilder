@@ -1,3 +1,7 @@
+.baseBackground {
+	margin: 3% auto 0;
+}
+
 @sprite .baseBackground td {
 	gwt-image: "placedTileBG";
 }
@@ -28,7 +32,7 @@ body {
 		);
 	background-image: literal("-ms-linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
 		);
- 	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)" 
+	background-image: literal("linear-gradient(left, #999999 0%, #000000 35%, #000000 65%, #999999 100%)"
 		);
 }
 
@@ -39,12 +43,6 @@ body {
 	height: 96%;
 }
 
-.innerStyle {
-	margin: auto;
-	width: 882px;
-	height: 100%;
-}
-
 .selectionBackground {
 	margin-left: auto;
 	margin-right: auto;
@@ -53,6 +51,11 @@ body {
 .topPanel table {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+/*Stats Panel*/
+.statsStyle {
+	margin-bottom: 12%;
 }
 
 .whiteText {
