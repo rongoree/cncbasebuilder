@@ -223,7 +223,8 @@ public class BasePresenter implements BaseView.Presenter {
 				// new instance if first time placement
 				if (dragSource.getRow() < 0 || dragSource.getColumn() < 0) {
 					structure.decrementCount();
-					dragSource = new Tile(Main.getClientFactory().getStructure(structure.getId()), dragSource.getRow(),
+					dragSource = new Tile(Main.getClientFactory().getStructure(
+							structure.getId()), dragSource.getRow(),
 							dragSource.getColumn());
 				}
 
@@ -374,12 +375,6 @@ public class BasePresenter implements BaseView.Presenter {
 				if (structure instanceof Harvester) {
 					return false;
 				}
-				if (structure instanceof IsResource) {
-					if (isInvalidPlace(dropTile.getRow(), dropTile.getColumn(),
-							structure)) {
-						return false;
-					}
-				}
 				return true;
 			}
 
@@ -464,10 +459,7 @@ public class BasePresenter implements BaseView.Presenter {
 			list.add(model.getStructure(row, col + 1));
 		}
 
-		// resource fields not allowed in the border columns and rows
-		if (list.size() < 8 && placeTile instanceof IsResource) {
-			return true;
-		} else if (placeTile instanceof UniqueStructure) {
+		if (placeTile instanceof UniqueStructure) {
 			for (Structure structure : list) {
 				// if there is a unique structure around and the unique is not
 				// the
