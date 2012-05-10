@@ -63,17 +63,17 @@ public enum StructureDef {
 			new String[] { "Pitbull" }, new String[] { "foobar" },
 			new ImageResource[] { INSTANCE.pitBull_gdi() }, 27), BARBWIRE(
 			new String[] { "Barbwire" }, new String[] { "foobar" },
-			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 28), SNIPER_TEAM(
+			new ImageResource[] { INSTANCE.barbWire_gdi() }, 28), SNIPER_TEAM(
 			new String[] { "Sniper Team" }, new String[] { "foobar" },
-			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 29), FLAK(
+			new ImageResource[] { INSTANCE.sniperTeam_gdi() }, 29), FLAK(
 			new String[] { "Flak" }, new String[] { "foobar" },
 			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 30), ZONE_TROOPER(
 			new String[] { "Zone Trooper" }, new String[] { "foobar" },
-			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 31), WATCHTOWER(
+			new ImageResource[] { INSTANCE.zoneTrooper_gdi() }, 31), WATCHTOWER(
 			new String[] { "Watchtower" }, new String[] { "foobar" },
 			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 32), TITAN_ARTILLERY(
 			new String[] { "Titan Artillery" }, new String[] { "foobar" },
-			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 33), SAM_SITE(
+			new ImageResource[] { INSTANCE.titanArty_gdi() }, 33), SAM_SITE(
 			new String[] { "SAM Site" }, new String[] { "foobar" },
 			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 34),
 

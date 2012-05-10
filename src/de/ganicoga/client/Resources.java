@@ -201,6 +201,18 @@ public interface Resources extends ClientBundle {
 	@Source("resources/defense/gdi/pb.png")
 	ImageResource pitBull_gdi();
 
+	@Source("resources/defense/gdi/bw.png")
+	ImageResource barbWire_gdi();
+
+	@Source("resources/defense/gdi/st.png")
+	ImageResource sniperTeam_gdi();
+
+	@Source("resources/defense/gdi/ta.png")
+	ImageResource titanArty_gdi();
+
+	@Source("resources/defense/gdi/zt.png")
+	ImageResource zoneTrooper_gdi();
+
 	
 
 }
