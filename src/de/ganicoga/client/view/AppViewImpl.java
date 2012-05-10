@@ -13,9 +13,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.ganicoga.client.widget.ExtendedTextBox;
+import com.google.gwt.event.dom.client.ChangeEvent;
 
 public class AppViewImpl extends Composite implements AppView {
 
@@ -41,6 +43,8 @@ public class AppViewImpl extends Composite implements AppView {
 	Button selectButton;
 	@UiField
 	Button loadButton;
+	@UiField
+	ListBox factionBox;
 
 	private Presenter presenter;
 
@@ -123,5 +127,9 @@ public class AppViewImpl extends Composite implements AppView {
 			s = s.substring(1);
 		}
 		return s;
+	}
+	@UiHandler("factionBox")
+	void onFactionBoxChange(ChangeEvent event) {
+		presenter.onFactionChange(factionBox.getValue(factionBox.getSelectedIndex()));
 	}
 }

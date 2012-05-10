@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import de.ganicoga.client.Main;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.events.ConfigLoadEvent;
+import de.ganicoga.client.events.FactionChangeEvent;
+import de.ganicoga.client.model.Refs.Faction;
 import de.ganicoga.client.view.AppView;
 
 public class AppPresenter implements AppView.Presenter {
@@ -63,5 +65,18 @@ public class AppPresenter implements AppView.Presenter {
 		Main.getClientFactory().getEventBus()
 				.fireEvent(new ConfigLoadEvent(config));
 
+	}
+
+	@Override
+	public void onFactionChange(String value) {
+		if (value.equals(Faction.GDI.toString())){
+			Main.getClientFactory().getEventBus().fireEvent(new FactionChangeEvent(Faction.GDI));
+		}
+		else if (value.equals(Faction.NOD.toString())){
+			Main.getClientFactory().getEventBus().fireEvent(new FactionChangeEvent(Faction.GDI));
+		}
+		else{
+			Main.getClientFactory().getEventBus().fireEvent(new FactionChangeEvent(Faction.Forgotten));
+		}
 	}
 }
