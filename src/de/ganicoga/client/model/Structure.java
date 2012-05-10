@@ -36,6 +36,8 @@ public abstract class Structure {
 	public String toString(){
 		return def.getName();
 	}
-
-
+	
+	public void setActiveFaction(int faction){
+		def.setActiveFaction(faction);
+	}
 }

@@ -29,6 +29,10 @@ public class AppViewImpl extends Composite implements AppView {
 
 	public AppViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		factionBox.addItem("GDI");
+		factionBox.addItem("NOD");
+		factionBox.addItem("Forgotten");
 	}
 
 	@UiField
@@ -130,6 +134,6 @@ public class AppViewImpl extends Composite implements AppView {
 	}
 	@UiHandler("factionBox")
 	void onFactionBoxChange(ChangeEvent event) {
-		presenter.onFactionChange(factionBox.getValue(factionBox.getSelectedIndex()));
+		presenter.onFactionChange(factionBox.getSelectedIndex());
 	}
 }

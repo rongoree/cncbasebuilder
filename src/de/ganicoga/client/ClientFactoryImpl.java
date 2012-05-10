@@ -3,6 +3,7 @@ package de.ganicoga.client;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
+import de.ganicoga.client.model.Refs;
 import de.ganicoga.client.model.Structure;
 import de.ganicoga.client.model.resource.Accumulator;
 import de.ganicoga.client.model.resource.Crystal;
@@ -37,6 +38,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static final BaseView bv = new BaseViewImpl();
 	private static final StatsView stv = new StatsViewImpl();
 
+	private int activeFaction = Refs.GDI;
 	private boolean insertMode;
 
 	@Override
@@ -111,5 +113,13 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public StatsView getStatsView() {
 		return stv;
+	}
+	@Override
+	public int getActiveFaction() {
+		return activeFaction;
+	}
+	@Override
+	public void setActiveFaction(int activeFaction) {
+		this.activeFaction = activeFaction;
 	}
 }
