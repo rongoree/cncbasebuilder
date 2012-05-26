@@ -2,7 +2,7 @@ package de.ganicoga.client.model;
 
 public class Refs {
 
-	public static final String VERSION_NUMBER = "0.7.3";
+	public static final String VERSION_NUMBER = "0.8";
 	public static final int MAX_MINERALS = 7;
 	public static final int MAX_LEVEL = 50;
 	private static final int MAX_TABLE_LEVEL = 12;
@@ -57,15 +57,24 @@ public class Refs {
 	}
 
 	public static final double getMineralPackageAmount(int level) {
-		if (level <= MAX_TABLE_LEVEL) {
+		if (level <= MAX_TABLE_LEVEL-1) {
 			return MINERAL_TABLE[level];
 		} else {
-			return (int) Math.floor((MINERAL_TABLE[MAX_TABLE_LEVEL] * Math.pow(
-					1.2, level - MAX_TABLE_LEVEL)));
+			return (int) (Math.floor((MINERAL_TABLE[MAX_TABLE_LEVEL] * Math.pow(
+					1.2, level - MAX_TABLE_LEVEL))) * 100.0d / (100 + 1.2d * (level - 4)));
 		}
 	}
 
-	public static final double getInfinitePackageAmount(int level) {
+	public static final double getPowerPackageAmount(int level) {
+		if (level <= MAX_TABLE_LEVEL-1) {
+			return INFINITE_TABLE[level];
+		} else {
+			return (int) Math.floor((INFINITE_TABLE[MAX_TABLE_LEVEL] * Math
+					.pow(1.2, level - MAX_TABLE_LEVEL))) * 100.0d / (100 + 1.2d * (level - 4));
+		}
+	}
+	
+	public static final double getCreditsPackageAmount(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return INFINITE_TABLE[level];
 		} else {
@@ -96,8 +105,21 @@ public class Refs {
 	 * @return The Credit/Power production per hour of a Refinery/PowerPlant at
 	 *         the specified level.
 	 */
-	public static final double getInfinitePackageProduction(int level) {
-		return 60 / getTimeStep(level) * getInfinitePackageAmount(level);
+	public static final double getPowerPackageProduction(int level) {
+		return 60 / getTimeStep(level) * getPowerPackageAmount(level);
+	}
+	
+	/**
+	 * Calculates the package production of a PowerPlant for Power or of a
+	 * Refinery for Credits per hour.
+	 * 
+	 * @param level
+	 *            The level of the PowerPlant or Refinery.
+	 * @return The Credit/Power production per hour of a Refinery/PowerPlant at
+	 *         the specified level.
+	 */
+	public static final double getCreditsPackageProduction(int level) {
+		return 60 / getTimeStep(level) * getCreditsPackageAmount(level);
 	}
 
 	/**

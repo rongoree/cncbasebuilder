@@ -84,7 +84,7 @@ public class BaseModel extends AbstractBaseModel {
 				}
 			} else if (rs instanceof PowerPlant) {
 				packagePower += Refs
-						.getInfinitePackageProduction(rs.getLevel());
+						.getPowerPackageProduction(rs.getLevel());
 				boolean accumulatorUsedUp = false;
 				for (Structure n : neighbors) {
 					if (n instanceof Crystal || n instanceof HarvesterCrystal) {
@@ -100,7 +100,7 @@ public class BaseModel extends AbstractBaseModel {
 					}
 				}
 			} else if (rs instanceof Refinery) {
-				packageCredits += Refs.getInfinitePackageProduction(rs
+				packageCredits += Refs.getCreditsPackageProduction(rs
 						.getLevel());
 				boolean powerPlantUsedUp = false;
 				for (Structure n : neighbors) {
