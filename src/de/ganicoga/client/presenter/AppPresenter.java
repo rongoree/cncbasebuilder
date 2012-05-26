@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import de.ganicoga.client.Main;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.events.ConfigLoadEvent;
+import de.ganicoga.client.events.FactionChangeEvent;
 import de.ganicoga.client.view.AppView;
 
 public class AppPresenter implements AppView.Presenter {
@@ -34,7 +35,7 @@ public class AppPresenter implements AppView.Presenter {
 
 		SelectionPresenter sp = new SelectionPresenter(Main.getClientFactory()
 				.getSelectionView());
-		//sp.setDefenseMode();
+		// sp.setDefenseMode();
 		sp.setBaseMode();
 		sp.go(view.getSouth());
 
@@ -63,5 +64,11 @@ public class AppPresenter implements AppView.Presenter {
 		Main.getClientFactory().getEventBus()
 				.fireEvent(new ConfigLoadEvent(config));
 
+	}
+
+	@Override
+	public void onFactionChange(int value) {
+		Main.getClientFactory().getEventBus()
+				.fireEvent(new FactionChangeEvent(value));
 	}
 }

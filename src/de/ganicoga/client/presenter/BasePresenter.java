@@ -19,11 +19,13 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.web.bindery.event.shared.EventBus;
 
 import de.ganicoga.client.Main;
 import de.ganicoga.client.Resources;
 import de.ganicoga.client.events.ConfigChangeEvent;
 import de.ganicoga.client.events.ConfigLoadEvent;
+import de.ganicoga.client.events.FactionChangeEvent;
 import de.ganicoga.client.events.ResetCellEvent;
 import de.ganicoga.client.model.AbstractBaseModel;
 import de.ganicoga.client.model.BaseModel;
@@ -65,6 +67,7 @@ public class BasePresenter implements BaseView.Presenter {
 
 	private MouseWheelHandler onWheelHandler;
 	protected TilePopup tilePopup;
+	private EventBus eventBus;
 
 	public BasePresenter(BaseView view) {
 		this.view = view;
@@ -74,6 +77,7 @@ public class BasePresenter implements BaseView.Presenter {
 			tilePopup = new TilePopup();
 		}
 
+		eventBus = Main.getClientFactory().getEventBus();
 		initHandlers();
 
 		String token = History.getToken();
@@ -132,8 +136,7 @@ public class BasePresenter implements BaseView.Presenter {
 			}
 		}
 
-		Main.getClientFactory().getEventBus()
-				.fireEvent(new ConfigChangeEvent(model));
+		eventBus.fireEvent(new ConfigChangeEvent(model));
 
 	}
 
@@ -231,9 +234,9 @@ public class BasePresenter implements BaseView.Presenter {
 				// Dropping a Harvester
 				if (structure instanceof Harvester) {
 					if (dropTargetStructure instanceof Tiberium) {
-						dragSource.setStructure(new HarvesterTiberium());
+						dragSource.setImage(HarvesterTiberium.INSTANCE.getImageResource());
 					} else {
-						dragSource.setStructure(new HarvesterCrystal());
+						dragSource.setImage(HarvesterCrystal.INSTANCE.getImageResource());
 					}
 
 					reset(dragSource.getRow(), dragSource.getColumn());
@@ -255,8 +258,7 @@ public class BasePresenter implements BaseView.Presenter {
 
 					@Override
 					public void execute() {
-						Main.getClientFactory().getEventBus()
-								.fireEvent(new ConfigChangeEvent(model));
+						eventBus.fireEvent(new ConfigChangeEvent(model));
 					}
 				});
 
@@ -279,8 +281,7 @@ public class BasePresenter implements BaseView.Presenter {
 
 					tile.setLevel(structure.getLevel());
 					model.update();
-					Main.getClientFactory().getEventBus()
-							.fireEvent(new ConfigChangeEvent(model));
+					eventBus.fireEvent(new ConfigChangeEvent(model));
 				}
 			}
 		};
@@ -292,8 +293,7 @@ public class BasePresenter implements BaseView.Presenter {
 
 				if (tilePopup.updateLevel()) {
 					model.update();
-					Main.getClientFactory().getEventBus()
-							.fireEvent(new ConfigChangeEvent(model));
+					eventBus.fireEvent(new ConfigChangeEvent(model));
 				}
 			}
 		});
@@ -307,40 +307,41 @@ public class BasePresenter implements BaseView.Presenter {
 			}
 		};
 		// events on load button clicked
-		Main.getClientFactory()
-				.getEventBus()
-				.addHandler(ConfigLoadEvent.TYPE,
-						new ConfigLoadEvent.Handler() {
-							public void onConfigLoad(ConfigLoadEvent event) {
-								if (event.getConfig().length() < 1) {
-									model = new BaseModel();
-								} else {
-									model = new BaseModel(event.getConfig());
-								}
+		eventBus.addHandler(ConfigLoadEvent.TYPE,
+				new ConfigLoadEvent.Handler() {
+					public void onConfigLoad(ConfigLoadEvent event) {
+						if (event.getConfig().length() < 1) {
+							model = new BaseModel();
+						} else {
+							model = new BaseModel(event.getConfig());
+						}
 
-								populateView();
-							}
-						});
+						populateView();
+					}
+				});
 		// events on reset cell (SelectionPresenter)
-		Main.getClientFactory().getEventBus()
-				.addHandler(ResetCellEvent.TYPE, new ResetCellEvent.Handler() {
+		eventBus.addHandler(ResetCellEvent.TYPE, new ResetCellEvent.Handler() {
+
+			@Override
+			public void onResetCell(ResetCellEvent event) {
+				reset(event.getRow(), event.getColumn());
+
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 					@Override
-					public void onResetCell(ResetCellEvent event) {
-						reset(event.getRow(), event.getColumn());
+					public void execute() {
+						eventBus.fireEvent(new ConfigChangeEvent(model));
+					}
+				});
+			}
+		});
+		eventBus.addHandler(FactionChangeEvent.TYPE,
+				new FactionChangeEvent.Handler() {
 
-						Scheduler.get().scheduleDeferred(
-								new ScheduledCommand() {
+					@Override
+					public void onFactionChange(FactionChangeEvent event) {
+						
 
-									@Override
-									public void execute() {
-										Main.getClientFactory()
-												.getEventBus()
-												.fireEvent(
-														new ConfigChangeEvent(
-																model));
-									}
-								});
 					}
 				});
 	}
@@ -507,23 +508,23 @@ public class BasePresenter implements BaseView.Presenter {
 
 			if (direction == 0) {
 				if (left && right) {
-					tile.setImage(Resources.INSTANCE.wallInner());
+					tile.setImage(Resources.INSTANCE.wallInner_gdi());
 				} else if (left) {
-					tile.setImage(Resources.INSTANCE.wallRight());
+					tile.setImage(Resources.INSTANCE.wallRight_gdi());
 				} else if (right) {
-					tile.setImage(Resources.INSTANCE.wallLeft());
+					tile.setImage(Resources.INSTANCE.wallLeft_gdi());
 				}
 			} else if (direction == -1) {
 				if (left) {
-					tile.setImage(Resources.INSTANCE.wallInner());
+					tile.setImage(Resources.INSTANCE.wallInner_gdi());
 				} else {
-					tile.setImage(Resources.INSTANCE.wallLeft());
+					tile.setImage(Resources.INSTANCE.wallLeft_gdi());
 				}
 			} else {
 				if (right) {
-					tile.setImage(Resources.INSTANCE.wallInner());
+					tile.setImage(Resources.INSTANCE.wallInner_gdi());
 				} else {
-					tile.setImage(Resources.INSTANCE.wallRight());
+					tile.setImage(Resources.INSTANCE.wallRight_gdi());
 				}
 			}
 		} else if (tile.getStructure() instanceof OilSlick) {
@@ -571,24 +572,24 @@ public class BasePresenter implements BaseView.Presenter {
 		// current is wall
 		if (tile.getStructure() instanceof Wall) {
 
-			tile.setImage(Resources.INSTANCE.wall());
+			tile.setImage(Resources.INSTANCE.wall_gdi());
 
 			if (left) {
 				if (leftleft) {
 					get(tile.getRow(), tile.getColumn() - 1).setImage(
-							Resources.INSTANCE.wallRight());
+							Resources.INSTANCE.wallRight_gdi());
 				} else {
 					get(tile.getRow(), tile.getColumn() - 1).setImage(
-							Resources.INSTANCE.wall());
+							Resources.INSTANCE.wall_gdi());
 				}
 			}
 			if (right) {
 				if (rightright) {
 					get(tile.getRow(), tile.getColumn() + 1).setImage(
-							Resources.INSTANCE.wallLeft());
+							Resources.INSTANCE.wallLeft_gdi());
 				} else {
 					get(tile.getRow(), tile.getColumn() + 1).setImage(
-							Resources.INSTANCE.wall());
+							Resources.INSTANCE.wall_gdi());
 				}
 			}
 		}

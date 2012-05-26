@@ -21,4 +21,8 @@ public interface ClientFactory {
 	void setInsertMode(boolean value);
 
 	StatsView getStatsView();
+
+	public int getActiveFaction();
+
+	public void setActiveFaction(int activeFaction);
 }

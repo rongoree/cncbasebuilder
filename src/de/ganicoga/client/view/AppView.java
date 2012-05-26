@@ -13,6 +13,8 @@ public interface AppView {
 
 		void onLoadConfigClick(String config);
 
+		void onFactionChange(int i);
+
 	}
 	
 	Widget asWidget();

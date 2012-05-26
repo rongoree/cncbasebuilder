@@ -2,58 +2,98 @@ package de.ganicoga.client.model;
 
 import com.google.gwt.resources.client.ImageResource;
 
-import de.ganicoga.client.Resources;
+import static de.ganicoga.client.Resources.INSTANCE;
 
 public enum StructureDef {
 
-	TIBERIUM("Tiberum", "foobar", Resources.INSTANCE.tiberiumField(), 1), 
-	CRYSTAL("Crystal", "foobar", Resources.INSTANCE.crystalField(), 2),
-	
-	HARVESTER("Harvester", "foobar", Resources.INSTANCE.harvester(), 3), 
-	HARVESTER_TIBERIUM("Harvester", "foobar", Resources.INSTANCE.harvesterTiberium(), 4), 
-	HARVESTER_CRYSTAL("Harvester", "foobar", Resources.INSTANCE.harvesterCrystal(), 5), 
-	CONSTRUCTION_YARD("Construction Yard", "foobar", Resources.INSTANCE.constructionYard(), 6),
-	POWER_PLANT("Power Plant", "foobar", Resources.INSTANCE.powerPlant(), 7), 
-	REFINERY("Refinery", "foobar", Resources.INSTANCE.refinery(), 8), 
-	SILO("Silo", "foobar", Resources.INSTANCE.silo(), 9), 
-	ACCUMULATOR("Accumulator", "foobar", Resources.INSTANCE.accumulator(), 10),
-	COMMAND_CENTER("Command Center", "foobar",Resources.INSTANCE.commandCenter(), 11), 
-	FACTORY("Factory","foobar", Resources.INSTANCE.factory(), 12), 
-	BARRACKS("Barracks","foobar", Resources.INSTANCE.barracks(), 13),
-	AIR_FIELD("Airfield","foobar", Resources.INSTANCE.airField(), 14), 
-	DEFENSE_HQ("Defense Headquarter", "foobar", Resources.INSTANCE.defenseHQ(), 15), 
-	DEFENSE_FACILITY("Defense Facility", "foobar", Resources.INSTANCE.defenseFacility(),16), 
-	SKY_SUPPORT("Skystrike Support", "foobar", Resources.INSTANCE.skySupport(), 17),
-	FALCON_SUPPORT("Falcon Support", "foobar",Resources.INSTANCE.falconSupport(), 18),
-	ION_SUPPORT("Ion Support","foobar", Resources.INSTANCE.ionSupport(), 19),
-	
-	WALL("Wall","foobar", Resources.INSTANCE.wall(), 20),
-	MG_NEST("MG Nest","foobar", Resources.INSTANCE.mgNest(), 21),
-	PREDATOR("Predator","foobar", Resources.INSTANCE.predator(), 22),
-	MISSILE_SQUAD("Missile Squad","foobar", Resources.INSTANCE.missileSquad(), 23),
-	AT_BARRIER("Anti-Tank Barrier","foobar", Resources.INSTANCE.antiTankBarrier(), 24),
-	GUARDIAN("Guardian","foobar", Resources.INSTANCE.guardian(), 25),
-	GUARDIAN_CANNON("Guardian Cannon","foobar", Resources.INSTANCE.guardianCannon(), 26),
-	PITBULL("Pitbull","foobar", Resources.INSTANCE.pitBull(), 27),
-	BARBWIRE("Barbwire","foobar", Resources.INSTANCE.ionSupport(), 28),
-	SNIPER_TEAM("Sniper Team","foobar", Resources.INSTANCE.ionSupport(), 29),
-	FLAK("Flak","foobar", Resources.INSTANCE.ionSupport(), 30),
-	ZONE_TROOPER("Zone Trooper","foobar", Resources.INSTANCE.ionSupport(), 31),
-	WATCHTOWER("Watchtower","foobar", Resources.INSTANCE.ionSupport(), 32),
-	TITAN_ARTILLERY("Titan Artillery","foobar", Resources.INSTANCE.ionSupport(), 33),
-	SAM_SITE("SAM Site","foobar", Resources.INSTANCE.ionSupport(), 34),
-	
-	WOODS("Woods","foobar", Resources.INSTANCE.wood(), 35),
-	OIL_SLICK("Oil Slick","foobar", Resources.INSTANCE.oil(), 36),
-	SCRUB("Scrub","foobar", Resources.INSTANCE.scrub(), 37),
-	SWAMP("Swamp","foobar", Resources.INSTANCE.swamp(), 38);
-	
-	private String name;
-	private String description;
-	private ImageResource image;
-	private int id;
+	TIBERIUM(new String[] { "Tiberum" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.tiberiumField() }, 1), CRYSTAL(
+			new String[] { "Crystal" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.crystalField(), }, 2),
 
-	StructureDef(String name, String description, ImageResource image, int id){
+	HARVESTER(new String[] { "Harvester" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.harvester_gdi() }, 3), HARVESTER_TIBERIUM(
+			new String[] { "Harvester" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.harvesterTiberium_gdi() }, 4), HARVESTER_CRYSTAL(
+			new String[] { "Harvester" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.harvesterCrystal_gdi() }, 5), CONSTRUCTION_YARD(
+			new String[] { "Construction Yard" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.constructionYard_gdi() }, 6), POWER_PLANT(
+			new String[] { "Power Plant" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.powerPlant_gdi() }, 7), REFINERY(
+			new String[] { "Refinery" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.refinery_gdi() }, 8), SILO(
+			new String[] { "Silo" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.silo_gdi() }, 9), ACCUMULATOR(
+			new String[] { "Accumulator" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.accumulator_gdi() }, 10), COMMAND_CENTER(
+			new String[] { "Command Center" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.commandCenter_gdi() }, 11), FACTORY(
+			new String[] { "Factory" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.factory_gdi() }, 12), BARRACKS(
+			new String[] { "Barracks" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.barracks_gdi() }, 13), AIR_FIELD(
+			new String[] { "Airfield" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.airField_gdi() }, 14), DEFENSE_HQ(
+			new String[] { "Defense Headquarter" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.defenseHQ_gdi() }, 15), DEFENSE_FACILITY(
+			new String[] { "Defense Facility" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.defenseFacility_gdi() }, 16), SKY_SUPPORT(
+			new String[] { "Skystrike Support" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.skySupport_gdi() }, 17), FALCON_SUPPORT(
+			new String[] { "Falcon Support" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.falconSupport_gdi() }, 18), ION_SUPPORT(
+			new String[] { "Ion Support" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 19),
+
+	WALL(new String[] { "Wall" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.wall_gdi() }, 20), MG_NEST(
+			new String[] { "MG Nest" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.mgNest_gdi() }, 21), PREDATOR(
+			new String[] { "Predator" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.predator_gdi() }, 22), MISSILE_SQUAD(
+			new String[] { "Missile Squad" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.missileSquad_gdi() }, 23), AT_BARRIER(
+			new String[] { "Anti-Tank Barrier" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.antiTankBarrier_gdi() }, 24), GUARDIAN(
+			new String[] { "Guardian" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.guardian_gdi() }, 25), GUARDIAN_CANNON(
+			new String[] { "Guardian Cannon" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.guardianCannon_gdi() }, 26), PITBULL(
+			new String[] { "Pitbull" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.pitBull_gdi() }, 27), BARBWIRE(
+			new String[] { "Barbwire" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.barbWire_gdi() }, 28), SNIPER_TEAM(
+			new String[] { "Sniper Team" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.sniperTeam_gdi() }, 29), FLAK(
+			new String[] { "Flak" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 30), ZONE_TROOPER(
+			new String[] { "Zone Trooper" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.zoneTrooper_gdi() }, 31), WATCHTOWER(
+			new String[] { "Watchtower" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 32), TITAN_ARTILLERY(
+			new String[] { "Titan Artillery" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.titanArty_gdi() }, 33), SAM_SITE(
+			new String[] { "SAM Site" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.ionSupport_gdi() }, 34),
+
+	WOODS(new String[] { "Woods" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.wood() }, 35), OIL_SLICK(
+			new String[] { "Oil Slick" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.oil() }, 36), SCRUB(
+			new String[] { "Scrub" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.scrub() }, 37), SWAMP(
+			new String[] { "Swamp" }, new String[] { "foobar" },
+			new ImageResource[] { INSTANCE.swamp() }, 38);
+
+	private String[] name;
+	private String[] description;
+	private ImageResource[] image;
+	private int id;
+	private int activeFaction = 0;
+
+	StructureDef(String[] name, String[] description, ImageResource[] image,
+			int id) {
 		this.name = name;
 		this.description = description;
 		this.image = image;
@@ -61,18 +101,23 @@ public enum StructureDef {
 	}
 
 	public String getName() {
-		return name;
+		return name.length > activeFaction ? name[activeFaction] : name[0];
 	}
 
 	public String getDescription() {
-		return description;
+		return description.length > activeFaction ? description[activeFaction]
+				: description[0];
 	}
 
 	public ImageResource getImageResource() {
-		return image;
+		return image.length > activeFaction ? image[activeFaction] : image[0];
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public void setActiveFaction(int activeFaction) {
+		this.activeFaction = activeFaction;
 	}
 }

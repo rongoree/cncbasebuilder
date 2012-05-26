@@ -6,6 +6,9 @@ public class Refs {
 	public static final int MAX_MINERALS = 7;
 	public static final int MAX_LEVEL = 50;
 	private static final int MAX_TABLE_LEVEL = 12;
+	public static final int GDI = 0;
+	public static final int NOD = 1;
+	public static final int FORGOTTEN = 2;
 
 	/**
 	 * An array of minute values for each level.

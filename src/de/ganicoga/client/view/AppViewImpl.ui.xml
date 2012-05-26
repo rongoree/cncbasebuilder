@@ -25,6 +25,9 @@
 						<td>
 							<g:Button text="Clear All" ui:field="clearButton" />
 						</td>
+						<td>
+							<g:ListBox ui:field="factionBox" />
+						</td>
 					</tr>
 				</table>
 			</g:HTMLPanel>
