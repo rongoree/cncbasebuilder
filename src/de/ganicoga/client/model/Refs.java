@@ -133,11 +133,11 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final double getContinous1Production(int level) {
-		if (level <= MAX_TABLE_LEVEL) {
+		if (level <= MAX_TABLE_LEVEL-1) {
 			return CONTINUOUS_1[level];
 		} else {
 			return CONTINUOUS_1[MAX_TABLE_LEVEL]
-					* Math.pow(1.2, level - MAX_TABLE_LEVEL);
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL) * 100.0d / (100 + 1.2d * (level - 4));
 		}
 	}
 
@@ -153,6 +153,25 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final double getContinous2Production(int level) {
+		if (level <= MAX_TABLE_LEVEL-1) {
+			return CONTINUOUS_2[level];
+		} else {
+			return CONTINUOUS_2[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL)* 100.0d / (100 + 1.2d * (level - 4));
+		}
+	}
+	
+	/**
+	 * Calculates the continuous production of a Resource per hour.</br>
+	 * 
+	 * Used PowerPlant(credits) linked to Refinery
+	 * 
+	 * @param level
+	 *            The level of the producing structure.
+	 * @return The continuous resource production per hour of the producing
+	 *         structure at the specified level.
+	 */
+	public static final double getContinous2cProduction(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_2[level];
 		} else {
@@ -165,8 +184,7 @@ public class Refs {
 	 * Calculates the continuous production of a Resource per hour.</br>
 	 * 
 	 * Used by </br>Harvester(tiberium, crystal) linked to Silo,
-	 * </br>PowerPlant(power) linked to Crystal, </br>Refinery(credits) linked
-	 * to Tiberium
+	 * </br>PowerPlant(power) linked to Crystal
 	 * 
 	 * @param level
 	 *            The level of the producing structure.
@@ -174,6 +192,25 @@ public class Refs {
 	 *         structure at the specified level.
 	 */
 	public static final double getContinous3Production(int level) {
+		if (level <= MAX_TABLE_LEVEL-1) {
+			return CONTINUOUS_3[level];
+		} else {
+			return CONTINUOUS_3[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL)* 100.0d / (100 + 1.2d * (level - 4));
+		}
+	}
+	
+	/**
+	 * Calculates the continuous production of a Resource per hour.</br>
+	 * 
+	 * Used by Refinery(credits) linked to Tiberium
+	 * 
+	 * @param level
+	 *            The level of the producing structure.
+	 * @return The continuous resource production per hour of the producing
+	 *         structure at the specified level.
+	 */
+	public static final double getContinous3cProduction(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_3[level];
 		} else {
@@ -185,15 +222,33 @@ public class Refs {
 	/**
 	 * Calculates the continuous production of a Resource per hour.</br>
 	 * 
-	 * Used by </br>PowerPlant(power) linked to Accumulator,
-	 * </br>Refinery(credits) linked to PowerPlant)
-	 * 
+	 * Used by PowerPlant(power) linked to Accumulator
+	 *
 	 * @param level
 	 *            The level of the producing structure.
 	 * @return The continuous resource production per hour of the producing
 	 *         structure at the specified level.
 	 */
 	public static final double getContinous4Production(int level) {
+		if (level <= MAX_TABLE_LEVEL-1) {
+			return CONTINUOUS_4[level];
+		} else {
+			return CONTINUOUS_4[MAX_TABLE_LEVEL]
+					* Math.pow(1.2, level - MAX_TABLE_LEVEL) * 100.0d / (100 + 1.2d * (level - 4));
+		}
+	}
+	
+	/**
+	 * Calculates the continuous production of a Resource per hour.</br>
+	 * 
+	 * Used by Refinery(credits) linked to PowerPlant
+	 * 
+	 * @param level
+	 *            The level of the producing structure.
+	 * @return The continuous resource production per hour of the producing
+	 *         structure at the specified level.
+	 */
+	public static final double getContinous4cProduction(int level) {
 		if (level <= MAX_TABLE_LEVEL) {
 			return CONTINUOUS_4[level];
 		} else {

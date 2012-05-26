@@ -95,7 +95,7 @@ public class BaseModel extends AbstractBaseModel {
 								.getLevel());
 						accumulatorUsedUp = true;
 					} else if (n instanceof Refinery) {
-						continuousCredits += Refs.getContinous2Production(rs
+						continuousCredits += Refs.getContinous2cProduction(rs
 								.getLevel());
 					}
 				}
@@ -105,10 +105,10 @@ public class BaseModel extends AbstractBaseModel {
 				boolean powerPlantUsedUp = false;
 				for (Structure n : neighbors) {
 					if (n instanceof Tiberium || n instanceof HarvesterTiberium) {
-						continuousCredits += Refs.getContinous3Production(rs
+						continuousCredits += Refs.getContinous3cProduction(rs
 								.getLevel());
 					} else if (n instanceof PowerPlant && !powerPlantUsedUp) {
-						continuousCredits += Refs.getContinous4Production(rs
+						continuousCredits += Refs.getContinous4cProduction(rs
 								.getLevel());
 						powerPlantUsedUp = true;
 					}
