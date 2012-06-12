@@ -33,7 +33,7 @@ import de.ganicoga.client.view.StatsViewImpl;
 
 public class ClientFactoryImpl implements ClientFactory {
 	private static final EventBus eb = new SimpleEventBus();
-	
+
 	private static final SelectionView sv = new SelectionViewImpl();
 	private static final BaseView bv = new BaseViewImpl();
 	private static final StatsView stv = new StatsViewImpl();
@@ -58,66 +58,89 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public Structure getStructure(int id) {
+		Structure returnStructure = null;
 		switch (id) {
-			case 1:
-				return new Tiberium();
-			case 2:
-				return new Crystal();
-			case 3:
-				return new Harvester();
-			case 4:
-				return new HarvesterTiberium();
-			case 5:
-				return new HarvesterCrystal();
-			case 6:
-				return new ConstructionYard();
-			case 7:
-				return new PowerPlant();
-			case 8:
-				return new Refinery();
-			case 9:
-				return new Silo();
-			case 10:
-				return new Accumulator();
-			case 11:
-				return new CommandCenter();
-			case 12:
-				return new Factory();
-			case 13:
-				return new Barracks();
-			case 14:
-				return new AirField();
-			case 15:
-				return new DefenseHQ();
-			case 16:
-				return new DefenseFacility();
-			case 17:
-				return new SkySupport();
-			case 18:
-				return new FalconSupport();
-			case 19:
-				return new IonSupport();
-			}
-			return null;
+		case 1:
+			returnStructure = new Tiberium();
+			break;
+		case 2:
+			returnStructure = new Crystal();
+			break;
+		case 3:
+			returnStructure = new Harvester();
+			break;
+		case 4:
+			returnStructure = new HarvesterTiberium();
+			break;
+		case 5:
+			returnStructure = new HarvesterCrystal();
+			break;
+		case 6:
+			returnStructure = new ConstructionYard();
+			break;
+		case 7:
+			returnStructure = new PowerPlant();
+			break;
+		case 8:
+			returnStructure = new Refinery();
+			break;
+		case 9:
+			returnStructure = new Silo();
+			break;
+		case 10:
+			returnStructure = new Accumulator();
+			break;
+		case 11:
+			returnStructure = new CommandCenter();
+			break;
+		case 12:
+			returnStructure = new Factory();
+			break;
+		case 13:
+			returnStructure = new Barracks();
+			break;
+		case 14:
+			returnStructure = new AirField();
+			break;
+		case 15:
+			returnStructure = new DefenseHQ();
+			break;
+		case 16:
+			returnStructure = new DefenseFacility();
+			break;
+		case 17:
+			returnStructure = new SkySupport();
+			break;
+		case 18:
+			returnStructure = new FalconSupport();
+			break;
+		case 19:
+			returnStructure = new IonSupport();
+			break;
+		}
+		return returnStructure;
 	}
 
 	@Override
 	public boolean isInsertMode() {
 		return insertMode;
 	}
+
 	@Override
 	public void setInsertMode(boolean value) {
-		insertMode = value;		
+		insertMode = value;
 	}
 
 	@Override
 	public StatsView getStatsView() {
 		return stv;
 	}
+
 	@Override
 	public int getActiveFaction() {
 		return activeFaction;
 	}
+
 	@Override
 	public void setActiveFaction(int activeFaction) {
 		this.activeFaction = activeFaction;

@@ -68,6 +68,7 @@ public class AppPresenter implements AppView.Presenter {
 
 	@Override
 	public void onFactionChange(int value) {
+		Main.getClientFactory().setActiveFaction(value);
 		Main.getClientFactory().getEventBus()
 				.fireEvent(new FactionChangeEvent(value));
 	}
