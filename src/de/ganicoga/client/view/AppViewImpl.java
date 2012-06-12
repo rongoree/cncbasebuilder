@@ -32,9 +32,8 @@ public class AppViewImpl extends Composite implements AppView {
 		
 		factionBox.addItem("GDI");
 		factionBox.addItem("NOD");
-		factionBox.addItem("Forgotten");
-		
-		factionBox.setEnabled(false);
+		//TODO factionBox.addItem("Forgotten");
+
 	}
 
 	@UiField
