@@ -99,6 +99,26 @@ public class Tile extends DraggableWidget<FlowPanel> implements
 		getOriginalWidget().add(this.image);
 		getOriginalWidget().add(levelLabel);
 	}
+	
+	public void setStructure(Structure structure) {
+
+		int level = 0;
+		if(this.structure instanceof HasLevel){
+			level = ((HasLevel) this.structure).getLevel();
+			
+		}
+		
+		
+		this.structure = structure;
+		setImage(structure.getImageResource());
+		
+		if(this.structure instanceof HasLevel){
+			((HasLevel) this.structure).setLevel(level);
+			setLevel(level);
+			
+		}
+		
+	}
 
 	public int getRow() {
 		return row;

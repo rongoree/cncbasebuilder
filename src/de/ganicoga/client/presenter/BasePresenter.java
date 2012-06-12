@@ -234,9 +234,9 @@ public class BasePresenter implements BaseView.Presenter {
 				// Dropping a Harvester
 				if (structure instanceof Harvester) {
 					if (dropTargetStructure instanceof Tiberium) {
-						dragSource.setImage(HarvesterTiberium.INSTANCE.getImageResource());
+						dragSource.setStructure(new HarvesterTiberium());
 					} else {
-						dragSource.setImage(HarvesterCrystal.INSTANCE.getImageResource());
+						dragSource.setStructure(new HarvesterCrystal());
 					}
 
 					reset(dragSource.getRow(), dragSource.getColumn());
